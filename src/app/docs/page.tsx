@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bot, BookOpen, Braces, ExternalLink, FileText, Play } from "lucide-react";
+import { Bot, BookOpen, Braces, ChevronRight, ExternalLink, FileText, Play } from "lucide-react";
 import { CodeBlock, InfoPanel, LinkButton, PageHeader, Section } from "@/components/ui";
 import { getDocsLinks, getRepo, sources } from "@/lib/sources";
 
@@ -29,29 +29,30 @@ export default function DocsPage() {
     <>
       <PageHeader
         eyebrow="Docs hub"
-        title="Curated from the source, shaped for builders."
-        description="The website does not dump the docs repo into a new shell. It tracks the Farcasterorg sources, then points each audience to the right material."
+        title="If you're building something, start here."
+        description="The pages link directly to source files in the open repos, so what you read is what's actually shipping. Pick the path that fits your work."
       />
 
       <Section title="Start with the path that matches your work.">
         <div className="grid gap-5 lg:grid-cols-3">
-          <InfoPanel icon={Braces} title="API developers">
+          <InfoPanel icon={Braces} title="Building an app">
             <p className="mb-4">
-              Use the v2-compatible HTTP read API for users, casts, feeds, channels, reactions,
-              follows, search, batch reads, webhooks, and mini-app notification work.
+              The HTTP API is Farcaster v2-compatible: users, casts, feeds, channels, reactions,
+              follows, search, batch reads, webhooks, mini-app notifications. Anything built for
+              Farcaster works here.
             </p>
             <CodeBlock label="First request" command={`curl -s "${sources.publicNode.baseUrl}${sources.publicNode.apiPrefix}/user?fid=3" | jq .`} />
           </InfoPanel>
-          <InfoPanel icon={BookOpen} title="Node operators">
+          <InfoPanel icon={BookOpen} title="Running a node">
             <p>
-              Use the runbook, bootstrap script, port map, and live node status to move from public
-              reads into your own infrastructure.
+              Bootstrap script, port map, runbook, live node status. Everything you need to move
+              from reading the public node to running your own.
             </p>
           </InfoPanel>
-          <InfoPanel icon={Bot} title="AI agents">
+          <InfoPanel icon={Bot} title="Coding with an AI agent">
             <p>
-              The docs source includes LLM-friendly indexes and full-spec pages so coding agents can
-              integrate against Hypersnap without scraping rendered pages.
+              The docs include LLM-friendly indexes and full-spec pages, so coding agents can
+              integrate against Hypersnap without scraping rendered HTML.
             </p>
           </InfoPanel>
         </div>
@@ -59,8 +60,8 @@ export default function DocsPage() {
 
       <Section
         eyebrow="Source index"
-        title="Documentation synced from Farcasterorg."
-        description="These links point at the current source files used to generate the website snapshot."
+        title="Every page points back to its source."
+        description="These links go straight to the markdown files in the open Farcasterorg repos. The site doesn't reframe or rewrite — it tracks the source so you always read what's actually there."
       >
         <div className="grid gap-5 lg:grid-cols-2">
           {groups.length > 0 ? (
@@ -85,9 +86,13 @@ export default function DocsPage() {
                     ))}
                   </div>
                   {remainingLinks.length > 0 ? (
-                    <details className="mt-3 group">
-                      <summary className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-cyan-100 transition hover:bg-cyan-300/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">
-                        Show {remainingLinks.length} more source files
+                    <details className="group mt-3 [&_summary::-webkit-details-marker]:hidden">
+                      <summary className="flex cursor-pointer list-none items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-cyan-100 transition hover:bg-cyan-300/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">
+                        <ChevronRight
+                          className="h-4 w-4 shrink-0 transition-transform duration-200 group-open:rotate-90"
+                          aria-hidden="true"
+                        />
+                        <span>Show {remainingLinks.length} more source files</span>
                       </summary>
                       <div className="mt-2 grid gap-2">
                         {remainingLinks.map((link) => (
@@ -128,11 +133,15 @@ export default function DocsPage() {
         </div>
       </Section>
 
-      <Section eyebrow="Playground" title="Try the API against live data.">
+      <Section
+        eyebrow="Playground"
+        title="Try the API against live data."
+        description="No login, no API key. Curl the public node and start exploring."
+      >
         <InfoPanel icon={Play} title="Public node examples">
           <p>
             Every example on this website targets <code className="font-mono text-cyan-100">{sources.publicNode.baseUrl}</code>.
-            Substitute a local or self-hosted hostname when you are operating your own node.
+            Swap in your own hostname once you&apos;re running your own node.
           </p>
         </InfoPanel>
       </Section>

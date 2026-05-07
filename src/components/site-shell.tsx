@@ -4,6 +4,7 @@ import { MobileNav } from "@/components/mobile-nav";
 import { sources } from "@/lib/sources";
 
 const navItems = [
+  { href: "/about", label: "About" },
   { href: "/network", label: "Network" },
   { href: "/run-a-node", label: "Run a node" },
   { href: "/docs", label: "Docs" },
@@ -62,36 +63,112 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
         {children}
       </main>
       <footer className="border-t border-white/10">
-        <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 text-sm text-slate-400 sm:px-6 md:grid-cols-[1.2fr_0.8fr] lg:px-8">
+        <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-12 text-sm text-slate-300 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-8">
           <div>
-            <p className="font-semibold text-white">Hypersnap</p>
-            <p className="mt-2 max-w-2xl leading-6">
-              A decentralized fork of Snapchain for Farcaster data, APIs, operators, and builders.
-              Source snapshots are synced from Farcasterorg repositories through reviewable PRs.
+            <p className="text-base font-semibold text-white">Hypersnap</p>
+            <p className="mt-3 max-w-md leading-6 text-slate-300">
+              A decentralized social network, built by a global community of contributors. No
+              company, no VC, no single owner.
+            </p>
+            <p className="mt-3 max-w-md leading-6 text-slate-400">
+              The site updates itself from open repositories at github.com/farcasterorg through
+              reviewable PRs.
             </p>
           </div>
-          <div className="flex flex-wrap items-start gap-3 md:justify-end">
-            <a
-              className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-              href={`${sources.publicNode.baseUrl}/v1/info`}
-              suppressHydrationWarning
-            >
-              Public node info
-            </a>
-            <a
-              className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-              href={sources.organization.url}
-              suppressHydrationWarning
-            >
-              Farcasterorg
-            </a>
-            <Link
-              className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-              href="/docs"
-              suppressHydrationWarning
-            >
-              Docs hub
-            </Link>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
+              The project
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              <li>
+                <Link
+                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  href="/about"
+                  suppressHydrationWarning
+                >
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  href="/contribute"
+                  suppressHydrationWarning
+                >
+                  Contribute
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  href="/run-a-node"
+                  suppressHydrationWarning
+                >
+                  Run a node
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
+              For builders
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              <li>
+                <Link
+                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  href="/docs"
+                  suppressHydrationWarning
+                >
+                  Docs hub
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  href="/network"
+                  suppressHydrationWarning
+                >
+                  Live network
+                </Link>
+              </li>
+              <li>
+                <a
+                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  href={`${sources.publicNode.baseUrl}/v1/info`}
+                  suppressHydrationWarning
+                >
+                  Public node info
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
+              Community
+            </p>
+            <ul className="mt-4 space-y-2.5">
+              <li>
+                <a
+                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  href={sources.organization.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  suppressHydrationWarning
+                >
+                  GitHub org
+                </a>
+              </li>
+            </ul>
+            <p className="mt-4 max-w-xs text-xs leading-5 text-slate-400">
+              More community channels are coming as the network grows. For now, the work happens
+              in pull requests.
+            </p>
+          </div>
+        </div>
+        <div className="border-t border-white/5">
+          <div className="mx-auto w-full max-w-7xl px-5 py-5 text-xs text-slate-400 sm:px-6 lg:px-8">
+            Built by contributors worldwide. No company, no VC.
           </div>
         </div>
       </footer>

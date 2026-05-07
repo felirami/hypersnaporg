@@ -20,14 +20,14 @@ export const metadata: Metadata = {
     template: "%s | Hypersnap",
   },
   description:
-    "Hypersnap is a decentralized fork of Snapchain for Farcaster data, public APIs, node operators, and open protocol contributors.",
+    "Hypersnap is a decentralized social network, built by a global community of contributors. No company, no VC. The evolution of Farcaster: every node run by someone different, anywhere in the world.",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: "Hypersnap",
     description:
-      "A decentralized Farcaster/Snapchain fork with live network access, node operator docs, and open source contribution paths.",
+      "A decentralized social network — actually decentralized. Built by contributors worldwide. No company, no VC.",
     url: "https://hypersnap.org",
     siteName: "Hypersnap",
     images: ["/opengraph-image"],
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Hypersnap",
     description:
-      "A decentralized Farcaster/Snapchain fork with live network access, node operator docs, and open source contribution paths.",
+      "A decentralized social network — actually decentralized. Built by contributors worldwide. No company, no VC.",
     images: ["/opengraph-image"],
   },
 };
