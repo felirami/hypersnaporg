@@ -1,13 +1,24 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
+import { unified } from "unified";
+import remarkParse from "remark-parse";
+import remarkGfm from "remark-gfm";
+import remarkRehype from "remark-rehype";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypeHighlight from "rehype-highlight";
+import rehypeStringify from "rehype-stringify";
+import { toString as mdastToString } from "mdast-util-to-string";
+import GithubSlugger from "github-slugger";
+import { visit } from "unist-util-visit";
 
 const ORG = "farcasterorg";
 const API_BASE = "https://api.github.com";
 const OUT_FILE = path.join(process.cwd(), "src/data/farcasterorg-sources.json");
 const SOURCE_REPO_ORDER = ["hypersnap", "hypersnap-docs-web", "snap", "protocol"];
 
-const DOCS_LINK_LIMIT = 40;
+const DOCS_LINK_LIMIT = 80;
 const README_HEADING_LIMIT = 10;
 
 const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
@@ -122,6 +133,150 @@ function extractHyperGoals(hyperDoc) {
     .split("\n")
     .map((line) => line.match(/^\s*-\s+(.+)$/)?.[1]?.trim())
     .filter(Boolean);
+}
+
+function stripDocsRoot(sourcePath) {
+  return sourcePath
+    .replace(/^src\//, "")
+    .replace(/^docs\//, "")
+    .replace(/^site\/docs\/pages\//, "");
+}
+
+function computeDocSlug(sourcePath) {
+  const stripped = stripDocsRoot(sourcePath)
+    .replace(/\.(md|mdx)$/, "")
+    .replace(/\/index$/, "");
+  return stripped || "introduction";
+}
+
+function computeDocDir(sourcePath) {
+  const stripped = stripDocsRoot(sourcePath);
+  const lastSlash = stripped.lastIndexOf("/");
+  return lastSlash === -1 ? "" : stripped.substring(0, lastSlash);
+}
+
+function resolveInternalSlug(currentDir, target) {
+  // Drop trailing anchors during path resolution
+  const [pathPart, hash] = target.split("#");
+  let pathSegment = pathPart.replace(/\.(md|mdx)$/, "");
+
+  // If absolute (starts with /), treat as already resolved
+  if (pathSegment.startsWith("/")) {
+    pathSegment = pathSegment.replace(/^\/+/, "");
+  } else {
+    // Resolve relative to the current doc's source directory
+    const cleaned = pathSegment.replace(/^\.\//, "");
+    pathSegment = currentDir ? `${currentDir}/${cleaned}` : cleaned;
+  }
+
+  const parts = pathSegment.split("/");
+  const stack = [];
+  for (const part of parts) {
+    if (part === "..") stack.pop();
+    else if (part && part !== ".") stack.push(part);
+  }
+  let resolved = stack.join("/").replace(/\/index$/, "");
+  if (!resolved) resolved = currentDir;
+  return hash ? `${resolved}#${hash}` : resolved;
+}
+
+function remarkRewriteInternalLinks(currentDir) {
+  return (tree) => {
+    visit(tree, "link", (node) => {
+      const url = node.url;
+      if (!url) return;
+      if (
+        url.startsWith("http://") ||
+        url.startsWith("https://") ||
+        url.startsWith("//") ||
+        url.startsWith("mailto:") ||
+        url.startsWith("tel:")
+      ) {
+        return;
+      }
+      if (url.startsWith("#")) return; // anchor on same page
+
+      const resolved = resolveInternalSlug(currentDir, url);
+      node.url = `/docs/${resolved}`;
+    });
+  };
+}
+
+function captureTocPlugin(toc) {
+  return () => (tree) => {
+    const slugger = new GithubSlugger();
+    visit(tree, "heading", (node) => {
+      if (node.depth < 2 || node.depth > 3) return;
+      const text = mdastToString(node).trim();
+      if (!text) return;
+      const id = slugger.slug(text);
+      toc.push({ depth: node.depth, text, id });
+    });
+  };
+}
+
+async function renderMarkdownToHtml(markdown, currentDir) {
+  const toc = [];
+
+  const file = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(() => remarkRewriteInternalLinks(currentDir))
+    .use(captureTocPlugin(toc))
+    .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeSlug)
+    .use(rehypeAutolinkHeadings, {
+      behavior: "append",
+      properties: {
+        className: ["heading-anchor"],
+        ariaLabel: "Anchor link to this heading",
+      },
+      content: {
+        type: "text",
+        value: " #",
+      },
+    })
+    .use(rehypeHighlight, { detect: true, ignoreMissing: true })
+    .use(rehypeStringify, { allowDangerousHtml: true })
+    .process(markdown);
+
+  return { html: String(file), toc };
+}
+
+async function enrichDocsLinks(docsLinks, repoName, branch) {
+  const enriched = [];
+  for (const link of docsLinks) {
+    const slug = computeDocSlug(link.sourcePath);
+    const dir = computeDocDir(link.sourcePath);
+    const markdown = await fetchGithubText(
+      `${API_BASE}/repos/${ORG}/${repoName}/contents/${link.sourcePath}?ref=${encodeURIComponent(branch)}`,
+      { optional: true },
+    );
+
+    if (!markdown) {
+      enriched.push({ ...link, slug, contentHtml: "", contentMarkdown: "", toc: [] });
+      continue;
+    }
+
+    let contentHtml = "";
+    let toc = [];
+    try {
+      const result = await renderMarkdownToHtml(markdown, dir);
+      contentHtml = result.html;
+      toc = result.toc;
+    } catch (error) {
+      console.error(`Failed to render ${link.sourcePath}:`, error.message);
+    }
+
+    enriched.push({
+      ...link,
+      slug,
+      contentHtml,
+      contentMarkdown: markdown,
+      toc,
+    });
+  }
+  return enriched;
 }
 
 function extractDocsLinksFromSummary(summary, repoName, branch) {
@@ -247,7 +402,13 @@ async function buildRepoSnapshot(repo) {
       { optional: true },
     );
     docsLinks = extractDocsLinksFromSummary(summary, repo.name, defaultBranch);
+    docsLinks = await enrichDocsLinks(docsLinks, repo.name, defaultBranch);
     publicNodeReferences = [extractPublicNode([readme, intro, gettingStarted])];
+  } else {
+    docsLinks = docsLinks.map((link) => ({
+      ...link,
+      slug: computeDocSlug(link.sourcePath),
+    }));
   }
 
   return {
