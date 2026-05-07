@@ -163,7 +163,7 @@ export function NodeInfoChecker() {
               if (!trimmed) {
                 setResult({
                   tone: "warn",
-                  text: "Paste JSON first. Tiny detail, tragically important.",
+                  text: "Paste the JSON output first, then hit Analyze.",
                 });
                 return;
               }
