@@ -47,7 +47,7 @@ export function CopyCommand({ value }: { value: string }) {
       ) : (
         <Copy className={failed ? "h-4 w-4 text-rose-200" : "h-4 w-4"} aria-hidden="true" />
       )}
-      <span className="sr-only" role="status">
+      <span className="sr-only" role="status" aria-live="polite">
         {statusMessage}
       </span>
     </button>

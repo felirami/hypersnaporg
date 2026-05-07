@@ -46,8 +46,11 @@ export default function Image() {
         </div>
         <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 24 }}>
           <div style={{ fontSize: 96, fontWeight: 700, letterSpacing: 0 }}>Hypersnap</div>
-          <div style={{ maxWidth: 860, fontSize: 34, lineHeight: 1.25, color: "#cbd5e1" }}>
-            A decentralized fork of Snapchain for Farcaster data, nodes, APIs, and contributors.
+          <div style={{ maxWidth: 860, fontSize: 36, lineHeight: 1.25, color: "#f8fafc" }}>
+            A decentralized social network — actually decentralized.
+          </div>
+          <div style={{ maxWidth: 860, fontSize: 24, lineHeight: 1.4, color: "#94a3b8" }}>
+            Built by contributors worldwide. No company. No VC.
           </div>
         </div>
       </div>

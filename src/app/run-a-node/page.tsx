@@ -16,14 +16,17 @@ export default function RunNodePage() {
     <>
       <PageHeader
         eyebrow="Operators"
-        title="Run the decentralized network, not just a client against it."
-        description="Hypersnap nodes read and write Farcaster messages, expose local HTTP/gRPC surfaces, and help keep the fork independently accessible."
+        title="Run part of the network yourself."
+        description="Every node makes the network a little more decentralized. This page is for people who want to operate one. You don't have to be an expert — there's a single bootstrap command — but you do need a machine to run it on."
       />
 
-      <Section title="Bootstrap from the Farcasterorg source.">
+      <Section
+        title="Get started with one command."
+        description="The bootstrap script pulls the latest stable node from the Farcasterorg source, sets up the local store, and starts syncing."
+      >
         <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
           <CodeBlock label="Stable install" command={sources.node.bootstrapCommand} />
-          <InfoPanel icon={AlertTriangle} title="Operator notice">
+          <InfoPanel icon={AlertTriangle} title="Heads up">
             <p>{sources.node.noRewardsNotice}</p>
           </InfoPanel>
         </div>
@@ -31,8 +34,8 @@ export default function RunNodePage() {
 
       <Section
         eyebrow="Requirements"
-        title="Provision for real chain data, not a toy process."
-        description="The node maintains a local RocksDB store, catches up from snapshots, and exposes both HTTP and protocol ports."
+        title="What you'll need to run a node."
+        description="A node holds its own copy of the network's data and stays in sync with peers. That means real disk, real bandwidth, and a few open ports."
       >
         <div className="grid gap-5 md:grid-cols-3">
           <InfoPanel icon={HardDrive} title="Machine">
@@ -58,7 +61,11 @@ export default function RunNodePage() {
         </div>
       </Section>
 
-      <Section eyebrow="Operations" title="The node script keeps common work tight.">
+      <Section
+        eyebrow="Operations"
+        title="Day-to-day commands."
+        description="The bundled script wraps the most common tasks so you don't have to memorize flags."
+      >
         <div className="grid gap-5 lg:grid-cols-2">
           {sources.node.commands.map((command) => (
             <CodeBlock command={command.command} key={command.label} label={command.label} />
@@ -69,8 +76,8 @@ export default function RunNodePage() {
 
       <Section
         eyebrow="Runbook"
-        title="A practical operator loop."
-        description="Start with the bootstrap script, verify the local HTTP surface, then keep upgrades and logs close while the node catches up."
+        title="The operator loop, in three steps."
+        description="Install, verify, then keep an eye on it while it catches up. The first sync takes a while; after that it's mostly steady state."
       >
         <div className="grid gap-5 md:grid-cols-3">
           <InfoPanel icon={Terminal} title="Install">

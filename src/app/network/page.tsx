@@ -25,8 +25,8 @@ export default async function NetworkPage() {
     <>
       <PageHeader
         eyebrow="Network access"
-        title="A live public Hypersnap node, plus the path to run your own."
-        description="Use the hosted node for reads and integration work today. When you need sovereignty, run the same open source node yourself."
+        title="A live look at the network."
+        description="If you're a builder or operator, this page is your control room — endpoints, node status, shard data. If you're not technical, that's fine: the numbers below come from a real public node, refreshed every minute. Proof the network is actually running."
       />
 
       <Section
@@ -40,7 +40,8 @@ export default async function NetworkPage() {
 
       <Section
         eyebrow="Endpoints"
-        title="Start with HTTP reads, then drop lower when you need protocol control."
+        title="Three ways to talk to the network."
+        description="Start with the public HTTP API for reads. Drop down to the node info endpoint for live status. Run your own node when you want full control."
       >
         <div className="grid gap-5 lg:grid-cols-3">
           <InfoPanel icon={Braces} title="HTTP API">

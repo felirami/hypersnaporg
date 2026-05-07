@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { BookOpen, Boxes, GitBranch, RadioTower, Server, Sparkles, Terminal } from "lucide-react";
+import { BookOpen, GitBranch, GitPullRequest, Globe, RadioTower, Server, Terminal, Users } from "lucide-react";
 import { NetworkStatusGrid } from "@/components/network-status";
 import { Badge, CodeBlock, InfoPanel, LinkButton, Section } from "@/components/ui";
 import { formatDate } from "@/lib/format";
-import { getRepo, sources } from "@/lib/sources";
+import { sources } from "@/lib/sources";
 
 export const revalidate = 60;
 
@@ -14,33 +14,31 @@ export const metadata: Metadata = {
   },
 };
 
-const hypersnapRepo = getRepo("hypersnap");
-
 const principles = [
   {
-    title: "Decentralized by default",
+    title: "Owned by everyone running it",
     description:
-      "Hypersnap keeps the Farcaster data layer accessible to independent operators instead of leaving the network path locked behind one deployment.",
+      "Your account, your followers, your posts — they don't live on one company's servers. As long as people keep running nodes, the network keeps running. No one can flip a switch and turn it off.",
     icon: RadioTower,
   },
   {
-    title: "Snapchain compatible",
+    title: "Works with Farcaster",
     description:
-      "The fork keeps the familiar Snapchain/Farcaster wire model while opening room for hyper mode, richer API surfaces, and operator-driven validation.",
+      "Hypersnap speaks the same wire format as Farcaster, so apps and identities built for Farcaster work here too. The difference is structural: the network belongs to whoever runs a piece of it, not a single company.",
     icon: GitBranch,
   },
   {
-    title: "Built in the open",
+    title: "Built in the open, by everyone",
     description:
-      "The protocol, docs, API references, and website snapshots all point back to Farcasterorg source repositories.",
-    icon: Boxes,
+      "No company, no VC, no token sale. A global community of contributors writes the code, runs the nodes, and ships the changes — every PR public, every decision visible at github.com/farcasterorg.",
+    icon: Users,
   },
 ];
 
 const heroSignals = [
-  { label: "Public node", value: "haatz.quilibrium.com", className: "right-8 top-12" },
-  { label: "Fork source", value: "farcasterorg/hypersnap", className: "right-32 top-52" },
-  { label: "Source sync", value: "daily review PRs", className: "right-2 top-[22rem]" },
+  { label: "Live node", value: "haatz.quilibrium.com", className: "right-8 top-12" },
+  { label: "Source code", value: "github.com/farcasterorg", className: "right-32 top-52" },
+  { label: "Sync cadence", value: "daily review PRs", className: "right-2 top-[22rem]" },
 ];
 
 export default function Home() {
@@ -54,42 +52,36 @@ export default function Home() {
         />
         <HeroSignalField />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.86)_52%,rgba(2,6,23,0.35)_100%),linear-gradient(180deg,rgba(2,6,23,0.02)_0%,#020617_100%)]" />
-        <div className="relative mx-auto flex min-h-[72svh] w-full max-w-7xl flex-col justify-center px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
-          <Badge>Snapchain, made hyperdimensional</Badge>
+        <div className="relative mx-auto flex min-h-[72svh] w-full max-w-7xl flex-col justify-center px-5 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24">
+          <Badge>Built by contributors worldwide. No company. No VC.</Badge>
           <h1 className="mt-6 max-w-5xl text-balance text-5xl font-semibold tracking-normal text-white sm:text-7xl lg:text-8xl">
             Hypersnap
           </h1>
-          <p className="mt-6 max-w-3xl text-pretty text-lg leading-8 text-slate-200 sm:text-xl">
-            A decentralized fork of Snapchain for the Farcaster ecosystem: live public data,
-            self-hosted nodes, open APIs, and contribution paths that stay anchored to the
-            Farcasterorg source.
+          <p className="mt-6 max-w-3xl text-pretty text-2xl font-medium leading-9 text-white sm:text-3xl sm:leading-tight">
+            A decentralized social network — actually decentralized.
+          </p>
+          <p className="mt-5 max-w-3xl text-pretty text-base leading-7 text-slate-200 sm:text-lg sm:leading-8">
+            The evolution of Farcaster: same posts, follows, and identities — but every node
+            is run by someone different, anywhere in the world. No company. No VC. No single
+            owner. It&apos;s still being built, out in the open. You can read it, run it, or
+            help build it.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <LinkButton href="/network">Access the network</LinkButton>
+            <LinkButton href="/about">What is Hypersnap?</LinkButton>
             <LinkButton href="/run-a-node" variant="secondary">
               Run a node
             </LinkButton>
-            <LinkButton href={hypersnapRepo?.url ?? "https://github.com/farcasterorg/hypersnap"} variant="secondary" external>
-              Open source
+            <LinkButton href="/contribute" variant="secondary">
+              Help build it
             </LinkButton>
           </div>
         </div>
       </section>
 
       <Section
-        eyebrow="Live network"
-        title="Read from the public node now, or operate your own."
-        description={`The default public endpoint is ${sources.publicNode.baseUrl}. The site checks the node info endpoint directly and refreshes cached status every minute.`}
-      >
-        <Suspense fallback={<div className="h-32 rounded-lg border border-white/10 bg-white/[0.04]" />}>
-          <NetworkStatusGrid />
-        </Suspense>
-      </Section>
-
-      <Section
         eyebrow="What is Hypersnap"
-        title="The Farcaster data layer, forked for independent operation."
-        description="Hypersnap starts from Snapchain, the blockchain-like peer-to-peer storage layer used by Farcaster clients, and extends it toward a more operator-owned network."
+        title="A social network that belongs to the people running it."
+        description="Same kind of social experience as Farcaster — posts, follows, identities, channels. The difference is structural: instead of one company hosting the network, Hypersnap runs across many independent nodes, each operated by a different person, anywhere in the world."
       >
         <div className="grid gap-4 md:grid-cols-3">
           {principles.map((principle) => (
@@ -101,45 +93,79 @@ export default function Home() {
       </Section>
 
       <Section
-        eyebrow="Quick starts"
-        title="Three doors into the protocol."
-        description="Builders can read the public API, operators can bootstrap a node, and contributors can follow the source back into GitHub."
+        eyebrow="Live network"
+        title="The network is running. You can see it for yourself."
+        description={`There's a public node anyone can read from right now: ${sources.publicNode.baseUrl}. We check it every minute. Numbers below are real.`}
       >
-        <div className="grid gap-5 lg:grid-cols-3">
-          <InfoPanel icon={BookOpen} title="Read API data">
+        <Suspense fallback={<div className="h-32 rounded-lg border border-white/10 bg-white/[0.04]" />}>
+          <NetworkStatusGrid />
+        </Suspense>
+      </Section>
+
+      <Section
+        eyebrow="Get involved"
+        title="There's a path for everyone."
+        description="You don't have to write code, run servers, or even understand all of this to be part of it. Pick the way in that fits."
+      >
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <InfoPanel icon={Globe} title="Just curious">
+            <p className="mb-4">
+              Watch the work happen in public. Every line of code, every decision, every release
+              lives on GitHub.
+            </p>
+            <LinkButton
+              href={sources.organization.url}
+              variant="secondary"
+              external
+            >
+              Follow on GitHub
+            </LinkButton>
+          </InfoPanel>
+          <InfoPanel icon={BookOpen} title="Build with it">
             <CodeBlock
-              label="Public read"
+              label="Read public data"
               command={`curl -s "${sources.publicNode.baseUrl}${sources.publicNode.apiPrefix}/user?fid=3" | jq .`}
             />
           </InfoPanel>
-          <InfoPanel icon={Terminal} title="Bootstrap a node">
-            <CodeBlock label="Stable channel" command={sources.node.bootstrapCommand} />
+          <InfoPanel icon={Terminal} title="Run a node">
+            <p className="mb-4">
+              Help make the network more decentralized by running part of it yourself. One command
+              gets you started.
+            </p>
+            <LinkButton href="/run-a-node" variant="secondary">
+              See how
+            </LinkButton>
           </InfoPanel>
-          <InfoPanel icon={Sparkles} title="Sync source updates">
-            <CodeBlock label="Website data" command="npm run sync:sources" />
+          <InfoPanel icon={GitPullRequest} title="Help build it">
+            <p className="mb-4">
+              Code, docs, design, ideas — anyone who wants to contribute is welcome. The whole
+              project lives in public PRs.
+            </p>
+            <LinkButton href="/contribute" variant="secondary">
+              Ways to help
+            </LinkButton>
           </InfoPanel>
         </div>
       </Section>
 
       <Section
         eyebrow="Source truth"
-        title="The portal follows Farcasterorg."
-        description="A scheduled workflow keeps this website's curated data layer updated from the open repositories, so the portal can evolve with the protocol."
+        title="What you read here matches what's actually shipping."
+        description="The site updates itself from the open Farcasterorg repos. Repo metadata, README summaries, releases, docs links — all pulled from source so the portal stays honest."
       >
         <div className="grid gap-5 md:grid-cols-[1.2fr_0.8fr]">
           <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
             <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">Latest source update</p>
             <p className="mt-4 text-3xl font-semibold text-white">{formatDate(sources.sourceUpdatedAt)}</p>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
-              Data is normalized from public Farcasterorg repositories into a typed JSON snapshot,
-              then used by the docs, network, and contribution pages.
+              A scheduled job pulls fresh data from public repositories every day, then opens a
+              reviewable PR if anything meaningful changed.
             </p>
           </div>
-          <InfoPanel icon={Server} title="No Railway backend in v1">
+          <InfoPanel icon={Server} title="Built lightweight">
             <p>
-              The launch build uses Vercel for the frontend and lightweight API routes. A Railway
-              service can be added later if persistent aggregation or long-running network indexing
-              becomes necessary.
+              The site is a static portal generated from open source data. No persistent backend,
+              no telemetry pipeline — what you see here is a faithful snapshot of the public code.
             </p>
           </InfoPanel>
         </div>
