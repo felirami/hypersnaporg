@@ -63,29 +63,49 @@ export default function DocsPage() {
         description="These links point at the current source files used to generate the website snapshot."
       >
         <div className="grid gap-5 lg:grid-cols-2">
-          {groups.map(([section, links]) => (
-            <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5" key={section}>
-              <h2 className="flex items-center gap-2 text-lg font-semibold text-white">
-                <FileText className="h-5 w-5 text-cyan-200" aria-hidden="true" />
-                {section}
-              </h2>
-              <div className="mt-4 grid gap-2">
-                {links.slice(0, 8).map((link) => (
-                  <a
-                    className="flex items-center justify-between gap-4 rounded-md border border-white/8 bg-slate-950/35 px-3 py-2 text-sm text-slate-200 transition hover:border-cyan-300/40 hover:text-white"
-                    href={link.githubUrl}
-                    key={`${link.repoName}-${link.sourcePath}`}
-                    rel="noreferrer"
-                    target="_blank"
-                    suppressHydrationWarning
-                  >
-                    <span>{link.title}</span>
-                    <ExternalLink className="h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
-                  </a>
-                ))}
-              </div>
+          {groups.length > 0 ? (
+            groups.map(([section, links]) => {
+              const visibleLinks = links.slice(0, 8);
+              const remainingLinks = links.slice(8);
+
+              return (
+                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5" key={section}>
+                  <div className="flex items-start justify-between gap-4">
+                    <h2 className="flex min-w-0 items-center gap-2 text-lg font-semibold text-white">
+                      <FileText className="h-5 w-5 shrink-0 text-cyan-200" aria-hidden="true" />
+                      <span>{section}</span>
+                    </h2>
+                    <span className="shrink-0 rounded-full border border-white/10 px-2 py-1 text-xs text-slate-300">
+                      {links.length} files
+                    </span>
+                  </div>
+                  <div className="mt-4 grid gap-2">
+                    {visibleLinks.map((link) => (
+                      <DocsSourceLink key={`${link.repoName}-${link.sourcePath}`} link={link} />
+                    ))}
+                  </div>
+                  {remainingLinks.length > 0 ? (
+                    <details className="mt-3 group">
+                      <summary className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-cyan-100 transition hover:bg-cyan-300/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200">
+                        Show {remainingLinks.length} more source files
+                      </summary>
+                      <div className="mt-2 grid gap-2">
+                        {remainingLinks.map((link) => (
+                          <DocsSourceLink key={`${link.repoName}-${link.sourcePath}`} link={link} />
+                        ))}
+                      </div>
+                    </details>
+                  ) : null}
+                </div>
+              );
+            })
+          ) : (
+            <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6 text-sm leading-6 text-slate-300 lg:col-span-2">
+              No docs links were found in the current Farcasterorg source snapshot. Run{" "}
+              <code className="font-mono text-cyan-100">npm run sync:sources</code> to refresh the
+              local data.
             </div>
-          ))}
+          )}
         </div>
       </Section>
 
@@ -117,5 +137,22 @@ export default function DocsPage() {
         </InfoPanel>
       </Section>
     </>
+  );
+}
+
+type DocsLink = ReturnType<typeof getDocsLinks>[number];
+
+function DocsSourceLink({ link }: { link: DocsLink }) {
+  return (
+    <a
+      className="flex items-center justify-between gap-4 rounded-md border border-white/8 bg-slate-950/35 px-3 py-2 text-sm text-slate-200 transition hover:border-cyan-300/40 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+      href={link.githubUrl}
+      rel="noreferrer"
+      target="_blank"
+      suppressHydrationWarning
+    >
+      <span className="min-w-0 break-words">{link.title}</span>
+      <ExternalLink className="h-4 w-4 shrink-0 text-slate-500" aria-hidden="true" />
+    </a>
   );
 }

@@ -37,25 +37,29 @@ const principles = [
   },
 ];
 
+const heroSignals = [
+  { label: "Public node", value: "haatz.quilibrium.com", className: "right-8 top-12" },
+  { label: "Fork source", value: "farcasterorg/hypersnap", className: "right-32 top-52" },
+  { label: "Source sync", value: "daily review PRs", className: "right-2 top-[22rem]" },
+];
+
 export default function Home() {
   return (
     <>
-      <section className="relative isolate overflow-hidden">
+      <section className="relative isolate overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-[linear-gradient(115deg,#020617_0%,#061626_45%,#04231f_100%)]" />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-cover bg-center opacity-42"
-          style={{
-            backgroundImage:
-              "url('https://opengraph.githubassets.com/hypersnap-portal/farcasterorg/hypersnap')",
-          }}
+          className="absolute inset-0 opacity-35 [background-image:linear-gradient(rgba(125,211,252,0.18)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.16)_1px,transparent_1px)] [background-size:56px_56px]"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.86)_46%,rgba(2,6,23,0.5)_100%),linear-gradient(180deg,rgba(2,6,23,0.08)_0%,#020617_100%)]" />
-        <div className="relative mx-auto flex min-h-[82svh] w-full max-w-7xl flex-col justify-end px-5 pb-14 pt-24 sm:px-6 lg:px-8">
+        <HeroSignalField />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,0.98)_0%,rgba(2,6,23,0.86)_52%,rgba(2,6,23,0.35)_100%),linear-gradient(180deg,rgba(2,6,23,0.02)_0%,#020617_100%)]" />
+        <div className="relative mx-auto flex min-h-[72svh] w-full max-w-7xl flex-col justify-center px-5 py-20 sm:px-6 lg:px-8 lg:py-24">
           <Badge>Snapchain, made hyperdimensional</Badge>
-          <h1 className="mt-6 max-w-5xl text-5xl font-semibold tracking-normal text-white sm:text-7xl lg:text-8xl">
+          <h1 className="mt-6 max-w-5xl text-balance text-5xl font-semibold tracking-normal text-white sm:text-7xl lg:text-8xl">
             Hypersnap
           </h1>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-200 sm:text-xl">
+          <p className="mt-6 max-w-3xl text-pretty text-lg leading-8 text-slate-200 sm:text-xl">
             A decentralized fork of Snapchain for the Farcaster ecosystem: live public data,
             self-hosted nodes, open APIs, and contribution paths that stay anchored to the
             Farcasterorg source.
@@ -141,5 +145,33 @@ export default function Home() {
         </div>
       </Section>
     </>
+  );
+}
+
+function HeroSignalField() {
+  return (
+    <div aria-hidden="true" className="absolute inset-0 hidden overflow-hidden lg:block">
+      <div className="absolute right-[-7rem] top-12 h-[34rem] w-[54rem] rotate-[-7deg] border border-cyan-200/18 bg-cyan-200/[0.03]" />
+      <div className="absolute right-[-3rem] top-24 h-[25rem] w-[43rem] rotate-[5deg] border border-emerald-200/18 bg-emerald-200/[0.025]" />
+      <div className="absolute right-16 top-16 h-px w-[42rem] rotate-[20deg] bg-gradient-to-r from-transparent via-cyan-200/45 to-transparent" />
+      <div className="absolute right-4 top-64 h-px w-[38rem] rotate-[-14deg] bg-gradient-to-r from-transparent via-emerald-200/40 to-transparent" />
+      <div className="absolute right-40 top-40 h-[22rem] w-px rotate-[18deg] bg-gradient-to-b from-transparent via-amber-100/35 to-transparent" />
+
+      {heroSignals.map((signal) => (
+        <div
+          className={`absolute ${signal.className} rounded-md border border-white/12 bg-slate-950/72 px-4 py-3 shadow-2xl shadow-slate-950/30 backdrop-blur-md`}
+          key={signal.label}
+        >
+          <p className="text-[0.65rem] font-medium uppercase tracking-[0.12em] text-cyan-100">
+            {signal.label}
+          </p>
+          <p className="mt-1 font-mono text-sm text-white">{signal.value}</p>
+        </div>
+      ))}
+
+      <div className="absolute right-80 top-28 h-2.5 w-2.5 rounded-[2px] bg-cyan-200 shadow-[0_0_24px_rgba(103,232,249,0.85)]" />
+      <div className="absolute right-24 top-80 h-2.5 w-2.5 rounded-[2px] bg-emerald-200 shadow-[0_0_24px_rgba(167,243,208,0.75)]" />
+      <div className="absolute right-[29rem] top-72 h-2.5 w-2.5 rounded-[2px] bg-amber-100 shadow-[0_0_24px_rgba(254,243,199,0.65)]" />
+    </div>
   );
 }

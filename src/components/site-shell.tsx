@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GitBranch, RadioTower } from "lucide-react";
+import { MobileNav } from "@/components/mobile-nav";
 import { sources } from "@/lib/sources";
 
 const navItems = [
@@ -12,10 +13,16 @@ const navItems = [
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_34rem),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.12),transparent_30rem),#020617] text-slate-100">
+      <a
+        className="sr-only left-4 top-4 z-[60] rounded-md bg-cyan-200 px-4 py-2 text-sm font-semibold text-slate-950 focus:fixed focus:not-sr-only focus:outline-none"
+        href="#main-content"
+      >
+        Skip to content
+      </a>
       <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/78 backdrop-blur-xl">
-        <div className="mx-auto flex min-h-16 w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-5 py-3 sm:px-6 lg:px-8">
+        <div className="relative mx-auto flex min-h-16 w-full max-w-7xl flex-nowrap items-center justify-between gap-3 px-5 py-3 sm:px-6 lg:px-8">
           <Link
-            className="flex items-center gap-3"
+            className="flex min-w-0 items-center gap-3 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
             href="/"
             aria-label="Hypersnap home"
             suppressHydrationWarning
@@ -26,10 +33,10 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             <span className="text-base font-semibold tracking-normal text-white">hypersnap.org</span>
           </Link>
 
-          <nav className="flex flex-wrap items-center justify-end gap-1 text-sm text-slate-300">
+          <nav className="hidden items-center justify-end gap-1 text-sm text-slate-300 md:flex">
             {navItems.map((item) => (
               <Link
-                className="rounded-md px-3 py-2 transition hover:bg-white/[0.06] hover:text-white"
+                className="rounded-md px-3 py-2 transition hover:bg-white/[0.06] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
                 href={item.href}
                 key={item.href}
                 suppressHydrationWarning
@@ -38,7 +45,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               </Link>
             ))}
             <a
-              className="ml-1 inline-flex items-center gap-2 rounded-md border border-white/12 bg-white/[0.04] px-3 py-2 text-white transition hover:border-cyan-300/50"
+              className="ml-1 inline-flex items-center gap-2 rounded-md border border-white/12 bg-white/[0.04] px-3 py-2 text-white transition hover:border-cyan-300/50 hover:bg-cyan-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               href={sources.organization.url}
               target="_blank"
               rel="noreferrer"
@@ -48,9 +55,12 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               GitHub
             </a>
           </nav>
+          <MobileNav items={navItems} organizationUrl={sources.organization.url} />
         </div>
       </header>
-      <main>{children}</main>
+      <main id="main-content" tabIndex={-1}>
+        {children}
+      </main>
       <footer className="border-t border-white/10">
         <div className="mx-auto grid w-full max-w-7xl gap-8 px-5 py-10 text-sm text-slate-400 sm:px-6 md:grid-cols-[1.2fr_0.8fr] lg:px-8">
           <div>
@@ -62,16 +72,24 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           </div>
           <div className="flex flex-wrap items-start gap-3 md:justify-end">
             <a
-              className="hover:text-white"
+              className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
               href={`${sources.publicNode.baseUrl}/v1/info`}
               suppressHydrationWarning
             >
               Public node info
             </a>
-            <a className="hover:text-white" href={sources.organization.url} suppressHydrationWarning>
+            <a
+              className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+              href={sources.organization.url}
+              suppressHydrationWarning
+            >
               Farcasterorg
             </a>
-            <Link className="hover:text-white" href="/docs" suppressHydrationWarning>
+            <Link
+              className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+              href="/docs"
+              suppressHydrationWarning
+            >
               Docs hub
             </Link>
           </div>

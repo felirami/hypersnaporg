@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { SiteShell } from "@/components/site-shell";
 import "./globals.css";
@@ -40,6 +40,13 @@ export const metadata: Metadata = {
       "A decentralized Farcaster/Snapchain fork with live network access, node operator docs, and open source contribution paths.",
     images: ["/opengraph-image"],
   },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  initialScale: 1,
+  themeColor: "#020617",
+  width: "device-width",
 };
 
 export default function RootLayout({
