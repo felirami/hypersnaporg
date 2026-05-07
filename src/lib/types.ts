@@ -1,8 +1,18 @@
+export type DocTocItem = {
+  depth: number;
+  text: string;
+  id: string;
+};
+
 export type SourceDocLink = {
   title: string;
   section: string;
   sourcePath: string;
   githubUrl: string;
+  slug?: string;
+  contentHtml?: string;
+  contentMarkdown?: string;
+  toc?: DocTocItem[];
 };
 
 export type SourceRepo = {
