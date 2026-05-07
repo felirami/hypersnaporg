@@ -1,0 +1,58 @@
+name: Sync Farcasterorg sources
+
+on:
+  schedule:
+    - cron: "17 9 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    name: Sync source snapshot
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Sync Farcasterorg source snapshot
+        run: npm run sync:sources
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Build
+        run: npm run build
+
+      - name: Open source sync PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: chore/sync-farcasterorg-sources
+          commit-message: "chore: sync farcasterorg source snapshot"
+          title: "chore: sync Farcasterorg source snapshot"
+          body: |
+            Updates the generated Hypersnap website source snapshot from public `farcasterorg` repositories.
+
+            Validation run by the workflow:
+            - `npm run sync:sources`
+            - `npm run lint`
+            - `npm run typecheck`
+            - `npm run build`
+          labels: automated, source-sync

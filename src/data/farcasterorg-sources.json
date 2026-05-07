@@ -1,0 +1,654 @@
+{
+  "schemaVersion": 1,
+  "organization": {
+    "login": "farcasterorg",
+    "name": "Farcaster",
+    "url": "https://github.com/farcasterorg",
+    "avatarUrl": "https://avatars.githubusercontent.com/u/261822186?v=4",
+    "publicRepoCount": 4,
+    "createdAt": "2026-02-15T23:02:53Z"
+  },
+  "sourceUpdatedAt": "2026-05-06T08:39:20Z",
+  "publicNode": {
+    "baseUrl": "https://haatz.quilibrium.com",
+    "infoEndpoint": "/v1/info",
+    "apiPrefix": "/v2/farcaster"
+  },
+  "node": {
+    "bootstrapCommand": "curl -sSL https://raw.githubusercontent.com/farcasterorg/hypersnap/refs/heads/main/scripts/hypersnap-bootstrap.sh | bash",
+    "nightlyCommand": "curl -sSL https://raw.githubusercontent.com/farcasterorg/hypersnap/refs/heads/main/scripts/hypersnap-bootstrap.sh | bash -s nightly",
+    "commands": [
+      {
+        "label": "Upgrade",
+        "command": "cd ~/hypersnap && ./hypersnap.sh upgrade"
+      },
+      {
+        "label": "Logs",
+        "command": "cd ~/hypersnap && ./hypersnap.sh logs"
+      },
+      {
+        "label": "Stop",
+        "command": "cd ~/hypersnap && ./hypersnap.sh down"
+      },
+      {
+        "label": "Local info",
+        "command": "curl http://localhost:3381/v1/info | jq ."
+      }
+    ],
+    "requirements": [
+      "16 GB RAM",
+      "4 CPU cores or vCPUs",
+      "1.5 TB free storage",
+      "Public IP address",
+      "Ports 3381-3383 exposed on TCP and UDP"
+    ],
+    "ports": [
+      "3381/tcp HTTP",
+      "3382/udp gossip",
+      "3383/tcp gRPC"
+    ],
+    "noRewardsNotice": "The network has not yet released a token. Running a node at this time will not earn tokens."
+  },
+  "repos": [
+    {
+      "name": "hypersnap",
+      "description": "Snapchain, made hyperdimensional",
+      "url": "https://github.com/farcasterorg/hypersnap",
+      "defaultBranch": "main",
+      "isEmpty": false,
+      "primaryLanguage": "Rust",
+      "license": "GPL-3.0",
+      "stars": 49,
+      "forks": 19,
+      "openIssues": 11,
+      "pushedAt": "2026-05-06T08:39:20Z",
+      "updatedAt": "2026-05-06T05:36:30Z",
+      "latestRelease": {
+        "tagName": "@latest",
+        "name": "@latest",
+        "url": "https://github.com/farcasterorg/hypersnap/releases/tag/%40latest",
+        "publishedAt": "2026-03-31T00:07:51Z"
+      },
+      "readmeSummary": "The open source, canonical implementation of Farcaster's Snapchain network. Snapchain is a data storage layer for the Farcaster social protocol. It is a blockchain like decentralized p2p network that stores data created by Farcaster users. Learn more about Snapchain's design from the whitepaper. The main goals of this implementation are: 1. High Throughput : Written in Rust and will process at least 10,000 transac...",
+      "readmeHeadings": [
+        "Snapchain",
+        "What is Snapchain?",
+        "Status",
+        "Running a Node",
+        "Upgrade",
+        "Contributing",
+        "Installation",
+        "Prerequisites",
+        "Installation",
+        "Testing"
+      ],
+      "docsLinks": [
+        {
+          "title": "Hyper",
+          "section": "Architecture",
+          "sourcePath": "docs/hyper.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/docs/hyper.md"
+        },
+        {
+          "title": "Getting Started",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/getting-started.mdx",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/getting-started.mdx"
+        },
+        {
+          "title": "Migrating To Snapchain",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/guides/migrating-to-snapchain.mdx",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/guides/migrating-to-snapchain.mdx"
+        },
+        {
+          "title": "Running A Node",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/guides/running-a-node.mdx",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/guides/running-a-node.mdx"
+        },
+        {
+          "title": "Syncing To Db",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/guides/syncing-to-db.mdx",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/guides/syncing-to-db.mdx"
+        },
+        {
+          "title": "Writing Messages",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/guides/writing-messages.mdx",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/guides/writing-messages.mdx"
+        },
+        {
+          "title": "Index",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/index.mdx",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/index.mdx"
+        },
+        {
+          "title": "Events",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/datatypes/events.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/datatypes/events.md"
+        },
+        {
+          "title": "Messages",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/datatypes/messages.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/datatypes/messages.md"
+        },
+        {
+          "title": "Blocks",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/blocks.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/blocks.md"
+        },
+        {
+          "title": "Casts",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/casts.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/casts.md"
+        },
+        {
+          "title": "Events",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/events.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/events.md"
+        },
+        {
+          "title": "Fids",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/fids.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/fids.md"
+        },
+        {
+          "title": "Grpcapi",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/grpcapi.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/grpcapi.md"
+        },
+        {
+          "title": "Links",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/links.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/links.md"
+        },
+        {
+          "title": "Message",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/message.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/message.md"
+        },
+        {
+          "title": "Metadata",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/metadata.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/metadata.md"
+        },
+        {
+          "title": "Onchain",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/onchain.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/onchain.md"
+        },
+        {
+          "title": "Reactions",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/reactions.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/reactions.md"
+        },
+        {
+          "title": "Storagelimits",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/storagelimits.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/storagelimits.md"
+        },
+        {
+          "title": "Userdata",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/userdata.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/userdata.md"
+        },
+        {
+          "title": "Usernameproof",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/usernameproof.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/usernameproof.md"
+        },
+        {
+          "title": "Verification",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/grpcapi/verification.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/grpcapi/verification.md"
+        },
+        {
+          "title": "Casts",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/casts.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/casts.md"
+        },
+        {
+          "title": "Events",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/events.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/events.md"
+        },
+        {
+          "title": "Fids",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/fids.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/fids.md"
+        },
+        {
+          "title": "Httpapi",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/httpapi.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/httpapi.md"
+        },
+        {
+          "title": "Info",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/info.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/info.md"
+        },
+        {
+          "title": "Links",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/links.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/links.md"
+        },
+        {
+          "title": "Message",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/message.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/message.md"
+        },
+        {
+          "title": "Onchain",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/onchain.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/onchain.md"
+        },
+        {
+          "title": "Reactions",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/reactions.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/reactions.md"
+        },
+        {
+          "title": "Storagelimits",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/storagelimits.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/storagelimits.md"
+        },
+        {
+          "title": "Userdata",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/userdata.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/userdata.md"
+        },
+        {
+          "title": "Usernameproof",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/usernameproof.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/usernameproof.md"
+        },
+        {
+          "title": "Verification",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/reference/httpapi/verification.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/reference/httpapi/verification.md"
+        },
+        {
+          "title": "Whitepaper",
+          "section": "Protocol docs",
+          "sourcePath": "site/docs/pages/whitepaper.mdx",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap/blob/main/site/docs/pages/whitepaper.mdx"
+        }
+      ],
+      "sourceFacts": {
+        "publicNodeReferences": [],
+        "architectureNotes": [
+          "Keep the existing network id and leader set untouched.",
+          "Provide a node-local execution context that keeps all historical data",
+          "Allow hyper-capable peers to exchange richer blocks while continuing to",
+          "Offer tooling to compare canonical vs. hyper state so operators can detect"
+        ],
+        "nodeRequirements": []
+      }
+    },
+    {
+      "name": "hypersnap-docs-web",
+      "description": "",
+      "url": "https://github.com/farcasterorg/hypersnap-docs-web",
+      "defaultBranch": "master",
+      "isEmpty": false,
+      "primaryLanguage": "JavaScript",
+      "license": null,
+      "stars": 0,
+      "forks": 0,
+      "openIssues": 0,
+      "pushedAt": "2026-04-14T02:06:12Z",
+      "updatedAt": "2026-04-14T02:06:16Z",
+      "latestRelease": null,
+      "readmeSummary": "Developer documentation for the Hypersnap Farcaster API, built as a static mdBook site with compile time search and LLM friendly plain text exports. src/ — plain markdown source, organized by topic ( concepts/ , reference/ , guides/ , agents/ , appendix/ ). book.toml — mdBook configuration. Compile time search is enabled — the index ships with the site, no external service required. theme/custom.css — minor visual...",
+      "readmeHeadings": [
+        "hypersnap-docs-web",
+        "What's inside",
+        "Prerequisites",
+        "Build",
+        "Live preview",
+        "Customizing the base URL",
+        "Editing",
+        "For AI agents",
+        "License"
+      ],
+      "docsLinks": [
+        {
+          "title": "Introduction",
+          "section": "Getting Started",
+          "sourcePath": "src/introduction.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/introduction.md"
+        },
+        {
+          "title": "Your first request",
+          "section": "Getting Started",
+          "sourcePath": "src/getting-started.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/getting-started.md"
+        },
+        {
+          "title": "API playground",
+          "section": "Getting Started",
+          "sourcePath": "src/playground.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/playground.md"
+        },
+        {
+          "title": "Overview",
+          "section": "Concepts",
+          "sourcePath": "src/concepts/index.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/concepts/index.md"
+        },
+        {
+          "title": "Farcaster identity (FIDs)",
+          "section": "Concepts",
+          "sourcePath": "src/concepts/fids.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/concepts/fids.md"
+        },
+        {
+          "title": "Signed operations (EIP-712)",
+          "section": "Concepts",
+          "sourcePath": "src/concepts/authentication.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/concepts/authentication.md"
+        },
+        {
+          "title": "JSON Farcaster Signatures (JFS)",
+          "section": "Concepts",
+          "sourcePath": "src/concepts/jfs.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/concepts/jfs.md"
+        },
+        {
+          "title": "Pagination & cursors",
+          "section": "Concepts",
+          "sourcePath": "src/concepts/pagination.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/concepts/pagination.md"
+        },
+        {
+          "title": "Rate limits",
+          "section": "Concepts",
+          "sourcePath": "src/concepts/rate-limits.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/concepts/rate-limits.md"
+        },
+        {
+          "title": "Errors",
+          "section": "Concepts",
+          "sourcePath": "src/concepts/errors.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/concepts/errors.md"
+        },
+        {
+          "title": "Overview",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/index.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/index.md"
+        },
+        {
+          "title": "Users",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/users.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/users.md"
+        },
+        {
+          "title": "Casts",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/casts.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/casts.md"
+        },
+        {
+          "title": "Feeds",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/feeds.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/feeds.md"
+        },
+        {
+          "title": "Channels",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/channels.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/channels.md"
+        },
+        {
+          "title": "Reactions",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/reactions.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/reactions.md"
+        },
+        {
+          "title": "Follows",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/follows.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/follows.md"
+        },
+        {
+          "title": "User notifications",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/notifications.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/notifications.md"
+        },
+        {
+          "title": "Usernames & proofs",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/usernames.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/usernames.md"
+        },
+        {
+          "title": "Signers & on-chain events",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/signers.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/signers.md"
+        },
+        {
+          "title": "Blocks, mutes, bans",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/blocks-mutes.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/blocks-mutes.md"
+        },
+        {
+          "title": "Batch reads",
+          "section": "Read API reference",
+          "sourcePath": "src/reference/reads/batch.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/reads/batch.md"
+        },
+        {
+          "title": "Overview",
+          "section": "Webhooks",
+          "sourcePath": "src/reference/webhooks/index.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/webhooks/index.md"
+        },
+        {
+          "title": "Managing webhooks",
+          "section": "Webhooks",
+          "sourcePath": "src/reference/webhooks/managing.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/webhooks/managing.md"
+        },
+        {
+          "title": "Subscription filters",
+          "section": "Webhooks",
+          "sourcePath": "src/reference/webhooks/filters.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/webhooks/filters.md"
+        },
+        {
+          "title": "Delivery contract",
+          "section": "Webhooks",
+          "sourcePath": "src/reference/webhooks/delivery.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/webhooks/delivery.md"
+        },
+        {
+          "title": "Event schemas",
+          "section": "Webhooks",
+          "sourcePath": "src/reference/webhooks/events.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/webhooks/events.md"
+        },
+        {
+          "title": "Overview",
+          "section": "Mini-app notifications",
+          "sourcePath": "src/reference/miniapps/index.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/miniapps/index.md"
+        },
+        {
+          "title": "Registering a mini app",
+          "section": "Mini-app notifications",
+          "sourcePath": "src/reference/miniapps/registering.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/miniapps/registering.md"
+        },
+        {
+          "title": "Client token webhook",
+          "section": "Mini-app notifications",
+          "sourcePath": "src/reference/miniapps/token-webhook.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/miniapps/token-webhook.md"
+        },
+        {
+          "title": "Sending notifications",
+          "section": "Mini-app notifications",
+          "sourcePath": "src/reference/miniapps/sending.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/reference/miniapps/sending.md"
+        },
+        {
+          "title": "Build a Farcaster client",
+          "section": "Guides",
+          "sourcePath": "src/guides/build-a-client.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/guides/build-a-client.md"
+        },
+        {
+          "title": "Build an agent",
+          "section": "Guides",
+          "sourcePath": "src/guides/build-an-agent.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/guides/build-an-agent.md"
+        },
+        {
+          "title": "Build a mini app",
+          "section": "Guides",
+          "sourcePath": "src/guides/build-a-miniapp.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/guides/build-a-miniapp.md"
+        },
+        {
+          "title": "Receive webhooks",
+          "section": "Guides",
+          "sourcePath": "src/guides/receive-webhooks.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/guides/receive-webhooks.md"
+        },
+        {
+          "title": "Sign an EIP-712 request",
+          "section": "Guides",
+          "sourcePath": "src/guides/sign-eip712.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/guides/sign-eip712.md"
+        },
+        {
+          "title": "Run the docs as a mini app",
+          "section": "Guides",
+          "sourcePath": "src/guides/run-as-miniapp.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/guides/run-as-miniapp.md"
+        },
+        {
+          "title": "Using these docs with an LLM",
+          "section": "For AI agents",
+          "sourcePath": "src/agents/index.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/agents/index.md"
+        },
+        {
+          "title": "Prompting Claude",
+          "section": "For AI agents",
+          "sourcePath": "src/agents/claude.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/agents/claude.md"
+        },
+        {
+          "title": "Prompting ChatGPT",
+          "section": "For AI agents",
+          "sourcePath": "src/agents/chatgpt.md",
+          "githubUrl": "https://github.com/farcasterorg/hypersnap-docs-web/blob/master/src/agents/chatgpt.md"
+        }
+      ],
+      "sourceFacts": {
+        "publicNodeReferences": [
+          "https://haatz.quilibrium.com"
+        ],
+        "architectureNotes": [],
+        "nodeRequirements": []
+      }
+    },
+    {
+      "name": "snap",
+      "description": "",
+      "url": "https://github.com/farcasterorg/snap",
+      "defaultBranch": "main",
+      "isEmpty": false,
+      "primaryLanguage": null,
+      "license": null,
+      "stars": 1,
+      "forks": 1,
+      "openIssues": 1,
+      "pushedAt": "2026-04-08T02:01:49Z",
+      "updatedAt": "2026-04-17T19:55:18Z",
+      "latestRelease": null,
+      "readmeSummary": "Snaps are Snaps are simple, nimble apps embedded in Farcaster casts. This is the monorepo for the core packages, docs site, emulator, template, and examples. [!NOTE] This spec is in beta and may change rapidly in the near term. Tell your agent See docs.farcaster.xyz/snap for more info. Core library for Snap servers: schemas and types for snap JSON, validation of pages and POST bodies, and JFS verification for sign...",
+      "readmeHeadings": [
+        "Farcaster Snaps 🫰",
+        "🚀 Quickstart",
+        "📖 Docs for Humans",
+        "Packages",
+        "@farcaster/snap",
+        "@farcaster/snap-emulator",
+        "Opens at `http://localhost:3000`.",
+        "@farcaster/snap-hono",
+        "@farcaster/snap/ui",
+        "🛠️ Development"
+      ],
+      "docsLinks": [],
+      "sourceFacts": {
+        "publicNodeReferences": [],
+        "architectureNotes": [],
+        "nodeRequirements": []
+      }
+    },
+    {
+      "name": "protocol",
+      "description": "",
+      "url": "https://github.com/farcasterorg/protocol",
+      "defaultBranch": "main",
+      "isEmpty": true,
+      "primaryLanguage": null,
+      "license": null,
+      "stars": 7,
+      "forks": 0,
+      "openIssues": 0,
+      "pushedAt": "2026-02-15T23:07:24Z",
+      "updatedAt": "2026-02-22T13:19:42Z",
+      "latestRelease": null,
+      "readmeSummary": "No README summary is available yet.",
+      "readmeHeadings": [],
+      "docsLinks": [],
+      "sourceFacts": {
+        "publicNodeReferences": [],
+        "architectureNotes": [],
+        "nodeRequirements": []
+      }
+    }
+  ]
+}
