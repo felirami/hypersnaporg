@@ -139,7 +139,7 @@ export default function RunNodePage() {
       <PageHeader
         eyebrow="Operators"
         title="Run part of the network yourself."
-        description="Every node makes the network a little more decentralized. This page is the operator field guide: how to provision, install, operate, diagnose, and troubleshoot a Hypersnap node — without screenshot telephone."
+        description="Every node makes the network a little more decentralized. This page is the operator field guide — how to provision, install, operate, diagnose, and troubleshoot a Hypersnap node, with copy-paste commands and clear checks at each step."
       />
 
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
@@ -155,8 +155,8 @@ export default function RunNodePage() {
 
       <Section
         eyebrow="Provision"
-        title="Pick a boring machine that can stay online."
-        description="An early node operator just needs a stable VPS. Home installs can work, but NAT, sleep modes, dynamic IPs, and port forwarding turn easy mode into a haunted house."
+        title="Pick a machine that can stay online."
+        description="An early node operator just needs a stable VPS. Home installs can work, but NAT, sleep modes, dynamic IPs, and port forwarding add a lot of moving parts — go that route only if you're comfortable troubleshooting them."
       >
         <div className="grid gap-5 md:grid-cols-2">
           <InfoPanel icon={Cloud} title="Cloud / VPS path (recommended)">
@@ -168,7 +168,7 @@ export default function RunNodePage() {
               <li className="flex gap-2"><CircleCheck aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-emerald-200" /><span>Cloud Firewall: SSH restricted, P2P / API ports open</span></li>
             </ul>
             <p className="mt-4 text-xs leading-5 text-slate-400">
-              Shared CPU works if budget matters. Dedicated CPU is less cursed for long-running
+              Shared CPU works if budget matters. Dedicated CPU is more reliable for long-running
               sync, but costs more.
             </p>
           </InfoPanel>
@@ -316,7 +316,7 @@ export default function RunNodePage() {
       <Section
         id="troubleshoot"
         eyebrow="Troubleshooting"
-        title="Common failures, translated from Docker goblin."
+        title="Common failures, with what they actually mean."
       >
         <div className="grid gap-3">
           {TROUBLESHOOTING.map((item, index) => (
