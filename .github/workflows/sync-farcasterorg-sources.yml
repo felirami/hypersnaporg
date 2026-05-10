@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   sync:
@@ -41,18 +40,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Open source sync PR
-        uses: peter-evans/create-pull-request@v7
-        with:
-          branch: chore/sync-farcasterorg-sources
-          commit-message: "chore: sync farcasterorg source snapshot"
-          title: "chore: sync Farcasterorg source snapshot"
-          body: |
-            Updates the generated Hypersnap website source snapshot from public `farcasterorg` repositories.
+      - name: Commit source snapshot
+        run: |
+          if git diff --quiet -- src/data/farcasterorg-sources.json; then
+            echo "No source snapshot changes."
+            exit 0
+          fi
 
-            Validation run by the workflow:
-            - `npm run sync:sources`
-            - `npm run lint`
-            - `npm run typecheck`
-            - `npm run build`
-          labels: automated, source-sync
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/farcasterorg-sources.json
+          git commit -m "chore: sync farcasterorg source snapshot"
+          git push origin HEAD:main
