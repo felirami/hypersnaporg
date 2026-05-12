@@ -6,7 +6,10 @@ import { StatCard } from "@/components/ui";
 export async function NetworkStatusGrid({ compact = false }: { compact?: boolean }) {
   const status = await getNetworkStatus();
   const info = status.info;
-  const maxBlockDelay = Math.max(...(info?.shardInfos ?? []).map((shard) => shard.blockDelay ?? 0), 0);
+  const shardInfos = info?.shardInfos ?? [];
+  const shardCount = shardInfos.length > 0 ? shardInfos.length : info?.numShards;
+  const includesShardZero = shardInfos.some((shard) => shard.shardId === 0);
+  const maxBlockDelay = Math.max(...shardInfos.map((shard) => shard.blockDelay ?? 0), 0);
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -24,9 +27,9 @@ export async function NetworkStatusGrid({ compact = false }: { compact?: boolean
       />
       <StatCard
         icon={Server}
-        label="Shards"
-        value={formatExactNumber(info?.numShards)}
-        detail={`Max block delay: ${formatExactNumber(maxBlockDelay)}`}
+        label="Reported shards"
+        value={formatExactNumber(shardCount)}
+        detail={`${includesShardZero ? "Includes shard 0. " : ""}Max block delay: ${formatExactNumber(maxBlockDelay)}`}
       />
       <StatCard
         icon={GitCommit}
