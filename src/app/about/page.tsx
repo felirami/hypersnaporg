@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
-import { BookOpen, Compass, Globe, HeartHandshake, RadioTower, Server, Users } from "lucide-react";
+import { BookOpen, Compass, Globe, HeartHandshake, RadioTower, Server, UserRound, Users } from "lucide-react";
 import { InfoPanel, LinkButton, PageHeader, Section } from "@/components/ui";
+import { creator } from "@/lib/creator";
 import { sources } from "@/lib/sources";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Hypersnap is a decentralized social network built by a global community of contributors. No company, no VC. Here's what it is and why it exists.",
+    "About Hypersnap, the decentralized Farcaster fork, and Hypersnap.org, the portal made by Felirami.",
   alternates: {
     canonical: "/about",
   },
@@ -107,6 +108,36 @@ export default function AboutPage() {
               visible at github.com/farcasterorg.
             </p>
           </InfoPanel>
+        </div>
+      </Section>
+
+      <Section
+        eyebrow="Who made this site"
+        title="Hypersnap.org is made by Felirami."
+        description="The protocol is open source and community-run. This website is a solo developer contribution from Felirami, built to make the new Farcaster easier for people to understand, access, and improve."
+      >
+        <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <InfoPanel icon={UserRound} title={creator.name}>
+            <p>
+              {creator.role}. Felirami maintains the portal, keeps it pointed at the Farcasterorg
+              source, and helps contributors find the right next step.
+            </p>
+          </InfoPanel>
+          <div className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.06] p-6">
+            <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">Find Felirami</p>
+            <h2 className="mt-3 text-2xl font-semibold text-white">Website, social, and source</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300">
+              If you are using Hypersnap.org, following the project, or looking for the person
+              maintaining this portal, start here.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {creator.links.map((link) => (
+                <LinkButton href={link.href} key={link.href} variant="secondary" external>
+                  {link.label}
+                </LinkButton>
+              ))}
+            </div>
+          </div>
         </div>
       </Section>
 

@@ -50,7 +50,7 @@ export default function Image() {
             A decentralized social network — actually decentralized.
           </div>
           <div style={{ maxWidth: 860, fontSize: 24, lineHeight: 1.4, color: "#94a3b8" }}>
-            Built by contributors worldwide. No company. No VC.
+            Hypersnap.org made by Felirami, a solo developer contributing to the new Farcaster.
           </div>
         </div>
       </div>

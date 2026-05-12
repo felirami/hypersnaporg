@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import { BookOpen, GitBranch, GitPullRequest, Globe, RadioTower, Server, Terminal, Users } from "lucide-react";
+import { BookOpen, GitBranch, GitPullRequest, Globe, RadioTower, Server, Terminal, UserRound, Users } from "lucide-react";
 import { NetworkStatusGrid } from "@/components/network-status";
 import { Badge, CodeBlock, InfoPanel, LinkButton, Section } from "@/components/ui";
 import { formatDate } from "@/lib/format";
+import { creator } from "@/lib/creator";
 import { sources } from "@/lib/sources";
 
 export const revalidate = 60;
@@ -144,6 +145,36 @@ export default function Home() {
             <LinkButton href="/contribute" variant="secondary">
               Ways to help
             </LinkButton>
+          </InfoPanel>
+        </div>
+      </Section>
+
+      <Section
+        eyebrow="Made by Felirami"
+        title="A solo developer contribution to the new Farcaster."
+        description="Hypersnap is open protocol work. Hypersnap.org is the public portal Felirami maintains so people can understand the network, run nodes, and find the source without getting lost."
+      >
+        <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.06] p-6">
+            <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">{creator.handle}</p>
+            <h2 className="mt-3 text-3xl font-semibold text-white">{creator.name}</h2>
+            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-200">
+              {creator.role}. This site is intentionally signed, because public infrastructure
+              should make stewardship visible.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              {creator.links.map((link) => (
+                <LinkButton href={link.href} key={link.href} variant="secondary" external>
+                  {link.label}
+                </LinkButton>
+              ))}
+            </div>
+          </div>
+          <InfoPanel icon={UserRound} title="Clear attribution, open project">
+            <p>
+              Felirami maintains the website and contributes to the Farcasterorg effort. The protocol
+              remains open source, inspectable, and open to anyone who wants to help.
+            </p>
           </InfoPanel>
         </div>
       </Section>

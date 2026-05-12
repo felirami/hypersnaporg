@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { GitBranch, RadioTower } from "lucide-react";
+import { ExternalLink, GitBranch, RadioTower } from "lucide-react";
 import { MobileNav } from "@/components/mobile-nav";
+import { creator } from "@/lib/creator";
 import { sources } from "@/lib/sources";
 
 const navItems = [
@@ -74,6 +75,19 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               The site updates itself from open repositories at github.com/farcasterorg through
               reviewable PRs.
             </p>
+            <p className="mt-4 max-w-md leading-6 text-slate-300">
+              Hypersnap.org is built and maintained by{" "}
+              <a
+                className="rounded-sm font-medium text-cyan-100 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                href={creator.website}
+                target="_blank"
+                rel="noreferrer"
+                suppressHydrationWarning
+              >
+                {creator.name}
+              </a>
+              , a solo developer contributing to the new Farcaster.
+            </p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
@@ -145,30 +159,55 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
-              Community
+              Made by
             </p>
             <ul className="mt-4 space-y-2.5">
+              {creator.links.map((link) => (
+                <li key={link.href}>
+                  <a
+                    className="inline-flex items-center gap-2 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    suppressHydrationWarning
+                  >
+                    {link.label}
+                    <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
               <li>
                 <a
-                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  className="inline-flex items-center gap-2 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
                   href={sources.organization.url}
                   target="_blank"
                   rel="noreferrer"
                   suppressHydrationWarning
                 >
                   GitHub org
+                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
                 </a>
               </li>
             </ul>
             <p className="mt-4 max-w-xs text-xs leading-5 text-slate-400">
-              More community channels are coming as the network grows. For now, the work happens
-              in pull requests.
+              Protocol work happens in public at Farcasterorg. This website is Felirami&apos;s
+              contribution to make the new Farcaster easier to understand and join.
             </p>
           </div>
         </div>
         <div className="border-t border-white/5">
           <div className="mx-auto w-full max-w-7xl px-5 py-5 text-xs text-slate-400 sm:px-6 lg:px-8">
-            Built by contributors worldwide. No company, no VC.
+            Hypersnap.org made by{" "}
+            <a
+              className="rounded-sm text-slate-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+              href={creator.website}
+              target="_blank"
+              rel="noreferrer"
+              suppressHydrationWarning
+            >
+              {creator.handle}
+            </a>
+            . Hypersnap protocol work stays open at Farcasterorg.
           </div>
         </div>
       </footer>
