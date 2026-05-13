@@ -8,7 +8,7 @@
     "publicRepoCount": 4,
     "createdAt": "2026-02-15T23:02:53Z"
   },
-  "sourceUpdatedAt": "2026-05-07T07:39:24Z",
+  "sourceUpdatedAt": "2026-05-13T10:20:44Z",
   "publicNode": {
     "baseUrl": "https://haatz.quilibrium.com",
     "infoEndpoint": "/v1/info",
@@ -58,11 +58,11 @@
       "isEmpty": false,
       "primaryLanguage": "Rust",
       "license": "GPL-3.0",
-      "stars": 53,
+      "stars": 54,
       "forks": 20,
-      "openIssues": 12,
-      "pushedAt": "2026-05-07T07:39:24Z",
-      "updatedAt": "2026-05-10T21:19:23Z",
+      "openIssues": 11,
+      "pushedAt": "2026-05-13T10:20:44Z",
+      "updatedAt": "2026-05-13T00:20:13Z",
       "latestRelease": {
         "tagName": "v0.11.8",
         "name": "v0.11.8",
