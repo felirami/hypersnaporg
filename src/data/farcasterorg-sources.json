@@ -58,11 +58,11 @@
       "isEmpty": false,
       "primaryLanguage": "Rust",
       "license": "GPL-3.0",
-      "stars": 56,
+      "stars": 57,
       "forks": 20,
       "openIssues": 11,
       "pushedAt": "2026-05-14T06:51:34Z",
-      "updatedAt": "2026-05-17T04:35:08Z",
+      "updatedAt": "2026-05-18T00:24:05Z",
       "latestRelease": {
         "tagName": "v0.11.8",
         "name": "v0.11.8",
