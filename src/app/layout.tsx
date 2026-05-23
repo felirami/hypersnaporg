@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteShell } from "@/components/site-shell";
 import { creator } from "@/lib/creator";
 import "./globals.css";
@@ -91,6 +92,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
         />
         <SiteShell>{children}</SiteShell>
+        <Analytics />
       </body>
     </html>
   );
