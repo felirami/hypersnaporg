@@ -41,6 +41,7 @@ const TOC_GROUPS: TocGroup[] = [
   {
     title: "When things break",
     items: [
+      { id: "toolkit", label: "Operator toolkit" },
       { id: "diagnostics", label: "Diagnostics" },
       { id: "troubleshoot", label: "Troubleshooting" },
       { id: "helping", label: "Helping a friend" },

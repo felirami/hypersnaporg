@@ -93,6 +93,16 @@ export default function ContributePage() {
               the whole thing harder to take down.
             </p>
           </InfoPanel>
+          <InfoPanel icon={ShieldCheck} title="Improve node tooling">
+            <p className="mb-4">
+              The operator helper lives at{" "}
+              <code className="font-mono text-cyan-100">arcabotai/hypersnap</code>: installer,
+              doctor checks, sanitized reports, and safe repair workflows for people running nodes.
+            </p>
+            <LinkButton href="https://github.com/arcabotai/hypersnap" variant="secondary" external>
+              Open toolkit repo
+            </LinkButton>
+          </InfoPanel>
           <InfoPanel icon={Megaphone} title="Tell people about it">
             <p>
               Decentralized networks grow when people know they exist. Share the project, write

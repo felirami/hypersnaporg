@@ -57,6 +57,11 @@ const INSTALL_COMMAND = `mkdir -p ~/hypersnap
 cd ~/hypersnap
 ${sources.node.bootstrapCommand}`;
 
+const TOOLKIT_INSTALL_COMMAND = `curl -fsSL https://hypersnap.org/install.sh | bash`;
+
+const TOOLKIT_DOCTOR_COMMAND = `hypersnap doctor
+hypersnap share`;
+
 const CATCHUP_COMMAND = `cd ~/hypersnap
 ./hypersnap.sh logs
 # In another terminal:
@@ -784,10 +789,41 @@ export default function RunNodePage() {
 
             {/* DIAGNOSTICS --------------------------------------------- */}
             <GuideSection
+              id="toolkit"
+              eyebrow="Operator toolkit"
+              title="Install the helper once, then stop debugging by screenshot."
+              description="The open-source hypersnap command wraps the common operator checks into copy-pasteable diagnostics and sanitized support reports. It does not replace upstream; it makes upstream easier to run."
+            >
+              <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+                <InfoPanel icon={Stethoscope} title="One command to diagnose">
+                  <p className="mb-4">
+                    Install the helper from this site, then run the doctor whenever a node is acting
+                    weird. The report checks Docker, Compose, containers, ports, disk, memory,
+                    logs, and the local info endpoint.
+                  </p>
+                  <CodeBlock label="Install helper" command={TOOLKIT_INSTALL_COMMAND} />
+                </InfoPanel>
+                <InfoPanel icon={ShieldCheck} title="Share a sanitized report">
+                  <p className="mb-4">
+                    <code className="font-mono text-cyan-100">hypersnap share</code> writes a local
+                    report designed for GitHub issues, Discord, or Farcaster support threads. Review
+                    it before posting publicly.
+                  </p>
+                  <CodeBlock label="Doctor + report" command={TOOLKIT_DOCTOR_COMMAND} />
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    <LinkButton href="https://github.com/arcabotai/hypersnap" variant="secondary" external>
+                      Toolkit source
+                    </LinkButton>
+                  </div>
+                </InfoPanel>
+              </div>
+            </GuideSection>
+
+            <GuideSection
               id="diagnostics"
               eyebrow="Diagnostics"
               title="Ask for terminal output, not screenshots."
-              description="When something looks broken, this read-only diagnostic captures the state that explains 90% of failed installs: containers, logs, disk, ports, and the health endpoint."
+              description="If the helper is not installed yet, this read-only fallback captures the state that explains 90% of failed installs: containers, logs, disk, ports, and the health endpoint."
             >
               <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
                 <CodeBlock label="Read-only diagnostic" command={DIAGNOSTICS_COMMAND} />
@@ -895,6 +931,12 @@ export default function RunNodePage() {
                   label="CassOnMars 'how to hypersnap' gist"
                   sub="Operator notes from upstream contributors"
                   icon={Heart}
+                />
+                <SourceLink
+                  href="https://github.com/arcabotai/hypersnap"
+                  label="arcabotai/hypersnap"
+                  sub="Operator toolkit: hypersnap doctor, share reports, and install helper"
+                  icon={Stethoscope}
                 />
                 <SourceLink
                   href="/docs"

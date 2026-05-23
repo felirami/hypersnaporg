@@ -131,8 +131,12 @@ export default function Home() {
           <InfoPanel icon={Terminal} title="Run a node">
             <p className="mb-4">
               Help make the network more decentralized by running part of it yourself. One command
-              gets you started.
+              gets you started, and the open-source helper gives you a doctor command when things
+              get weird.
             </p>
+            <div className="mb-4">
+              <CodeBlock label="Operator helper" command="curl -fsSL https://hypersnap.org/install.sh | bash" />
+            </div>
             <LinkButton href="/run-a-node" variant="secondary">
               See how
             </LinkButton>

@@ -17,6 +17,9 @@ export function GET() {
   parts.push(`Source repository: ${sources.organization.url}/hypersnap-docs-web`);
   parts.push(`Last synced: ${sources.sourceUpdatedAt}`);
   parts.push(`Site index: ${SITE_URL}/llms.txt`);
+  parts.push(`Operator guide: ${SITE_URL}/run-a-node`);
+  parts.push(`Install helper: ${SITE_URL}/install.sh`);
+  parts.push(`Operator toolkit source: https://github.com/arcabotai/hypersnap`);
   parts.push("");
   parts.push("---");
   parts.push("");
