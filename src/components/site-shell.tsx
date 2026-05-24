@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ExternalLink, GitBranch, RadioTower } from "lucide-react";
-import { motion } from "framer-motion";
 import { MobileNav } from "@/components/mobile-nav";
 import { ScrollHeader } from "@/components/scroll-header";
 import { creator } from "@/lib/creator";
@@ -33,10 +32,9 @@ function NavLink({ href, label }: { href: string; label: string }) {
       suppressHydrationWarning
     >
       {active ? (
-        <motion.span
-          layoutId="nav-pill"
+        <span
+          aria-hidden="true"
           className="absolute inset-0 rounded-full border border-white/10 bg-white/[0.06]"
-          transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
         />
       ) : null}
       <span className="relative">{label}</span>

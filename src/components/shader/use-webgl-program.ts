@@ -62,7 +62,6 @@ export function useWebGLProgram(
   enabled: boolean,
 ) {
   const stateRef = useRef<WebGLState | null>(null);
-  const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const rafRef = useRef<number>(0);
   const startTimeRef = useRef<number>(0);
 
@@ -110,48 +109,74 @@ export function useWebGLProgram(
       gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
+    // The field drifts slowly, so ~30fps is indistinguishable from 60/120Hz
+    // while roughly halving (or quartering, on ProMotion) the GPU work.
+    const frameInterval = 1000 / 30;
+    let lastDraw = 0;
+    let running = false;
+    let visible = !document.hidden;
+    let inView = true;
+
     const render = (now: number) => {
       if (!stateRef.current) return;
-      const { gl: g, uTime: tLoc, uResolution: rLoc, uMouse: mLoc } = stateRef.current;
+      rafRef.current = requestAnimationFrame(render);
+      if (now - lastDraw < frameInterval) return;
+      lastDraw = now;
+
+      const { gl: g, program: prog, uTime: tLoc, uResolution: rLoc, uMouse: mLoc } =
+        stateRef.current;
       const elapsed = (now - startTimeRef.current) / 1000;
 
-      g.useProgram(stateRef.current.program);
+      g.useProgram(prog);
       g.uniform1f(tLoc, elapsed);
       g.uniform2f(rLoc, canvas.width, canvas.height);
-      g.uniform2f(mLoc, mouseRef.current.x, mouseRef.current.y);
+      g.uniform2f(mLoc, 0.5, 0.5);
       g.drawArrays(g.TRIANGLE_STRIP, 0, 4);
+    };
 
+    const start = () => {
+      if (running) return;
+      running = true;
+      lastDraw = 0;
       rafRef.current = requestAnimationFrame(render);
     };
 
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = canvas.getBoundingClientRect();
-      mouseRef.current = {
-        x: (e.clientX - rect.left) / rect.width,
-        y: 1.0 - (e.clientY - rect.top) / rect.height,
-      };
+    const stop = () => {
+      if (!running) return;
+      running = false;
+      cancelAnimationFrame(rafRef.current);
+    };
+
+    const sync = () => {
+      if (visible && inView) start();
+      else stop();
     };
 
     const onVisibility = () => {
-      if (document.hidden) {
-        cancelAnimationFrame(rafRef.current);
-      } else {
-        rafRef.current = requestAnimationFrame(render);
-      }
+      visible = !document.hidden;
+      sync();
     };
 
-    resize();
-    rafRef.current = requestAnimationFrame(render);
+    // Pause rendering whenever the hero is scrolled out of view.
+    const io = new IntersectionObserver(
+      (entries) => {
+        inView = entries[0]?.isIntersecting ?? false;
+        sync();
+      },
+      { threshold: 0 },
+    );
 
+    resize();
     const ro = new ResizeObserver(resize);
     ro.observe(canvas.parentElement!);
-    window.addEventListener("mousemove", onMouseMove);
+    io.observe(canvas);
     document.addEventListener("visibilitychange", onVisibility);
+    sync();
 
     return () => {
-      cancelAnimationFrame(rafRef.current);
+      stop();
       ro.disconnect();
-      window.removeEventListener("mousemove", onMouseMove);
+      io.disconnect();
       document.removeEventListener("visibilitychange", onVisibility);
       if (buffer) gl.deleteBuffer(buffer);
       if (program) gl.deleteProgram(program);

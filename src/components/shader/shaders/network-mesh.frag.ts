@@ -8,7 +8,7 @@ uniform vec2 u_resolution;
 uniform float u_time;
 uniform vec2 u_mouse;
 
-#define NUM_NODES 14
+#define NUM_NODES 10
 
 float hash(float n) {
   return fract(sin(n) * 43758.5453123);

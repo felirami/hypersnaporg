@@ -98,13 +98,15 @@ export function SnapMarketDashboard({
       }
     }
 
-    load();
+    // Server already provided fresh data (revalidate = 60); only fetch
+    // immediately when it's missing, then keep it live on the interval.
+    if (!initialData) load();
     const interval = window.setInterval(load, 60_000);
     return () => {
       cancelled = true;
       window.clearInterval(interval);
     };
-  }, []);
+  }, [initialData]);
 
   const market = data?.market;
   const trueFdv = market?.trueFdv ?? market?.correctedFdv;
