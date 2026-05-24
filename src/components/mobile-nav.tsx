@@ -25,7 +25,7 @@ export function MobileNav({
         aria-controls={menuId}
         aria-expanded={isOpen}
         aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/12 bg-white/[0.05] text-slate-100 transition hover:border-cyan-300/50 hover:bg-cyan-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-100 transition hover:border-cyan-400/25 hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
         onClick={() => setIsOpen((open) => !open)}
         type="button"
       >
@@ -34,7 +34,7 @@ export function MobileNav({
 
       {isOpen ? (
         <div
-          className="absolute inset-x-5 top-full mt-2 rounded-lg border border-white/12 bg-slate-950/96 p-2 shadow-2xl shadow-slate-950/40 backdrop-blur-xl sm:inset-x-6"
+          className="absolute inset-x-6 top-full mt-2 rounded-2xl border border-white/10 bg-[#030712]/95 p-2 shadow-2xl backdrop-blur-xl"
           id={menuId}
         >
           <nav aria-label="Mobile navigation" className="grid gap-1">

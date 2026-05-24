@@ -74,14 +74,14 @@ function Metric({
   tone?: "default" | "cyan" | "amber" | "danger";
 }) {
   const toneClass = {
-    default: "border-white/10 bg-white/[0.045]",
-    cyan: "border-cyan-300/25 bg-cyan-300/[0.075] shadow-cyan-950/30",
-    amber: "border-amber-200/25 bg-amber-200/[0.07] shadow-amber-950/20",
-    danger: "border-rose-200/20 bg-rose-200/[0.055]",
+    default: "border-white/[0.06]",
+    cyan: "border-cyan-400/20 bg-cyan-400/[0.04]",
+    amber: "border-amber-400/20 bg-amber-400/[0.04]",
+    danger: "border-rose-400/20 bg-rose-400/[0.04]",
   }[tone];
 
   return (
-    <div className={`min-w-0 rounded-lg border p-4 shadow-xl ${toneClass}`}>
+    <div className={`glass-panel min-w-0 rounded-2xl p-4 ${toneClass}`}>
       <p className="text-xs uppercase tracking-[0.12em] text-slate-400">{label}</p>
       <p className="mt-2 break-words font-mono text-2xl text-white">{value}</p>
       {detail ? <p className="mt-2 text-xs leading-5 text-slate-400">{detail}</p> : null}
@@ -129,7 +129,7 @@ export function SnapMarketDashboard({ variant = "full" }: { variant?: Variant })
 
   if (variant === "compact") {
     return (
-      <div className="rounded-xl border border-cyan-300/20 bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.16),transparent_22rem),rgba(255,255,255,0.04)] p-5 shadow-2xl shadow-slate-950/25">
+      <div className="glass-panel rounded-2xl border-cyan-400/15 p-5">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <Activity className="h-5 w-5 text-cyan-100" aria-hidden="true" />
@@ -151,7 +151,7 @@ export function SnapMarketDashboard({ variant = "full" }: { variant?: Variant })
   }
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-cyan-300/16 bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.13),transparent_28rem),radial-gradient(circle_at_90%_0%,rgba(251,191,36,0.11),transparent_24rem),rgba(255,255,255,0.035)] shadow-2xl shadow-slate-950/30">
+      <div className="glass-panel overflow-hidden rounded-2xl border-cyan-400/15">
       <div className="border-b border-white/10 p-5 sm:p-6">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>

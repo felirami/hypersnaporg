@@ -27,7 +27,7 @@ import {
   Users,
   Wifi,
 } from "lucide-react";
-import { Badge, CodeBlock, InfoPanel, LinkButton } from "@/components/ui";
+import { Badge, CodeBlock, InfoPanel, LinkButton, PageHeader, WarningPanel } from "@/components/ui";
 import { NodeInfoChecker } from "@/components/node-info-checker";
 import { RunNodeToc } from "@/components/run-node-toc";
 import { sources } from "@/lib/sources";
@@ -283,14 +283,14 @@ function GuideSection({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 py-12 first:pt-2 lg:py-16">
-      <div className="mb-8 max-w-3xl">
+    <section id={id} className="scroll-mt-28 py-16 first:pt-4 lg:py-20">
+      <div className="mb-10 max-w-2xl">
         <Badge>{eyebrow}</Badge>
-        <h2 className="mt-4 text-balance text-3xl font-semibold tracking-normal text-white sm:text-4xl">
+        <h2 className="mt-6 text-balance text-3xl font-semibold tracking-[-0.02em] text-white sm:text-4xl">
           {title}
         </h2>
         {description ? (
-          <p className="mt-3 max-w-3xl text-pretty text-base leading-7 text-slate-300 sm:text-lg">
+          <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-slate-400 sm:text-lg">
             {description}
           </p>
         ) : null}
@@ -312,7 +312,7 @@ function StepCard({
   children: ReactNode;
 }) {
   return (
-    <li className="rounded-lg border border-white/10 bg-white/[0.04] p-5 sm:p-6">
+    <li className="glass-panel rounded-2xl p-6 sm:p-7">
       <div className="flex flex-col gap-5 sm:flex-row sm:gap-6">
         <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300/[0.08] font-mono text-base text-cyan-100">
           {number}
@@ -337,7 +337,7 @@ function FriendCard({
   command: string;
 }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
+    <div className="glass-panel rounded-2xl p-5">
       <div className="flex items-center gap-3">
         <IconComponent aria-hidden="true" className="h-5 w-5 text-cyan-200" />
         <h3 className="text-lg font-semibold text-white">{title}</h3>
@@ -362,7 +362,7 @@ function SourceLink({
 }) {
   return (
     <a
-      className="group flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-4 transition hover:border-cyan-300/50 hover:bg-cyan-300/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+      className="group flex items-start gap-3 glass-panel rounded-2xl p-4 transition hover:border-cyan-400/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
       href={href}
       rel="noreferrer"
       target="_blank"
@@ -394,30 +394,24 @@ function ChecklistItem({ children }: { children: ReactNode }) {
 export default function RunNodePage() {
   return (
     <>
-      <header className="mx-auto w-full max-w-7xl px-5 pb-8 pt-16 sm:px-6 lg:px-8 lg:pt-24">
-        <Badge>Operators</Badge>
-        <h1 className="mt-5 max-w-4xl text-balance text-4xl font-semibold tracking-normal text-white sm:text-6xl">
-          Run part of the network yourself.
-        </h1>
-        <p className="mt-5 max-w-3xl text-pretty text-lg leading-8 text-slate-300">
-          Every node makes the network a little more decentralized. This page walks through the
-          whole loop — why it matters, what to expect, how to install, and how to keep it running.
-          You don&apos;t have to be an expert; you do need a server you can keep online.
-        </p>
-      </header>
+      <PageHeader
+        eyebrow="Operators"
+        title="Run part of the network yourself."
+        description="Every node makes the network a little more decentralized. This page walks through the whole loop — why it matters, what to expect, how to install, and how to keep it running. You don't have to be an expert; you do need a server you can keep online."
+      />
 
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
-        <div className="rounded-lg border border-amber-300/25 bg-amber-300/[0.06] p-5 text-sm leading-6 text-amber-50">
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10">
+        <WarningPanel>
           <p>
-            <span className="font-semibold">Reality check:</span> the install script asks operators
+            <span className="font-semibold text-amber-200">Reality check:</span> the install script asks operators
             to acknowledge that the network has not released a token and running a node currently
             doesn&apos;t earn tokens. Future incentive chatter is not a promise. Don&apos;t treat
             this as guaranteed rewards.
           </p>
-        </div>
+        </WarningPanel>
       </div>
 
-      <div className="mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10">
         <div className="grid gap-12 xl:grid-cols-[minmax(0,1fr)_15rem]">
           <div className="min-w-0">
             {/* WHY ----------------------------------------------------- */}
@@ -607,7 +601,7 @@ export default function RunNodePage() {
               description="Bootstrap finishes long before catch-up does. Use this checklist a few hours after starting to confirm the node is genuinely healthy and not just running."
             >
               <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-                <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5">
+                <div className="glass-panel rounded-2xl p-5">
                   <h3 className="text-base font-semibold text-white">Three things to check</h3>
                   <ul className="mt-4 space-y-3">
                     <ChecklistItem>
@@ -765,7 +759,7 @@ export default function RunNodePage() {
                   <CodeBlock label="Auto-updates" command={AUTO_UPDATES_COMMAND} />
                 </InfoPanel>
               </div>
-              <div className="mt-6 rounded-lg border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-slate-300">
+              <div className="mt-6 glass-panel rounded-2xl p-5 text-sm leading-7 text-slate-400">
                 <p className="font-semibold text-white">Worth considering</p>
                 <ul className="mt-3 space-y-2">
                   <li>
@@ -840,7 +834,7 @@ export default function RunNodePage() {
               <div className="grid gap-3">
                 {TROUBLESHOOTING.map((item, index) => (
                   <details
-                    className="group rounded-lg border border-white/10 bg-white/[0.04] p-5 [&_summary::-webkit-details-marker]:hidden"
+                    className="group glass-panel rounded-2xl p-5 [&_summary::-webkit-details-marker]:hidden"
                     key={index}
                     open={item.open}
                   >
@@ -891,7 +885,7 @@ export default function RunNodePage() {
                 {GLOSSARY.map((entry) => (
                   <div
                     key={entry.term}
-                    className="rounded-lg border border-white/10 bg-white/[0.04] p-4"
+                    className="glass-panel rounded-2xl p-4"
                   >
                     <dt className="text-sm font-semibold text-white">{entry.term}</dt>
                     <dd className="mt-1 text-sm leading-6 text-slate-300">{entry.definition}</dd>
@@ -951,7 +945,7 @@ export default function RunNodePage() {
                   icon={Users}
                 />
               </div>
-              <div className="mt-6 rounded-lg border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-slate-300">
+              <div className="mt-6 glass-panel rounded-2xl p-5 text-sm leading-7 text-slate-400">
                 <p>
                   Big chunks of this guide are adapted from{" "}
                   <span className="font-medium text-white">Arca&apos;s Hypersnap Node Starter Kit</span>
@@ -968,7 +962,7 @@ export default function RunNodePage() {
 
             {/* STILL STUCK --------------------------------------------- */}
             <section className="pb-16 pt-4">
-              <div className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.05] p-6 text-sm leading-6 text-slate-200">
+              <div className="glass-panel rounded-2xl border-cyan-400/15 bg-cyan-400/[0.04] p-6 text-sm leading-7 text-slate-300">
                 <p className="font-semibold text-white">Still stuck?</p>
                 <p className="mt-2">
                   Open an issue on the upstream repo with the diagnostic output above pasted in —

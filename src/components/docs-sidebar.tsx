@@ -51,7 +51,7 @@ export function DocsSidebar({ sections }: { sections: DocsSection[] }) {
                         aria-current={isActive ? "page" : undefined}
                         className={`-ml-px block border-l py-1.5 pl-4 transition ${
                           isActive
-                            ? "border-cyan-300 text-white"
+                            ? "docs-sidebar-active border-cyan-300 text-white shadow-[inset_3px_0_0_rgba(103,232,249,0.6)]"
                             : "border-transparent text-slate-300 hover:border-white/30 hover:text-white"
                         } focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200`}
                         href={href}

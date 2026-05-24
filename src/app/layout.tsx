@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { SiteShell } from "@/components/site-shell";
 import { creator } from "@/lib/creator";
 import "./globals.css";
@@ -72,7 +73,7 @@ const websiteStructuredData = {
 export const viewport: Viewport = {
   colorScheme: "dark",
   initialScale: 1,
-  themeColor: "#020617",
+  themeColor: "#030712",
   width: "device-width",
 };
 
@@ -86,12 +87,14 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[#030712]">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
         />
-        <SiteShell>{children}</SiteShell>
+        <SmoothScroll>
+          <SiteShell>{children}</SiteShell>
+        </SmoothScroll>
         <Analytics />
       </body>
     </html>

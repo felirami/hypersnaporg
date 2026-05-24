@@ -1,8 +1,14 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ExternalLink, GitBranch, RadioTower } from "lucide-react";
+import { motion } from "framer-motion";
 import { MobileNav } from "@/components/mobile-nav";
+import { ScrollHeader } from "@/components/scroll-header";
 import { creator } from "@/lib/creator";
 import { sources } from "@/lib/sources";
+import { cn } from "@/lib/utils";
 
 const navItems = [
   { href: "/about", label: "About" },
@@ -13,42 +19,67 @@ const navItems = [
   { href: "/contribute", label: "Contribute" },
 ];
 
+function NavLink({ href, label }: { href: string; label: string }) {
+  const pathname = usePathname();
+  const active = pathname === href || (href !== "/" && pathname.startsWith(href));
+
+  return (
+    <Link
+      className={cn(
+        "relative rounded-full px-3.5 py-2 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200",
+        active ? "text-white" : "text-slate-400 hover:text-white",
+      )}
+      href={href}
+      suppressHydrationWarning
+    >
+      {active ? (
+        <motion.span
+          layoutId="nav-pill"
+          className="absolute inset-0 rounded-full border border-white/10 bg-white/[0.06]"
+          transition={{ type: "spring", bounce: 0.15, duration: 0.5 }}
+        />
+      ) : null}
+      <span className="relative">{label}</span>
+    </Link>
+  );
+}
+
 export function SiteShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_34rem),radial-gradient(circle_at_80%_0%,rgba(16,185,129,0.12),transparent_30rem),#020617] text-slate-100">
+    <div className="relative min-h-screen text-slate-100">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_100%_80%_at_50%_-20%,rgba(56,189,248,0.07),transparent_50%),radial-gradient(ellipse_60%_40%_at_100%_0%,rgba(139,92,246,0.05),transparent_40%),#030712]"
+      />
+      <div aria-hidden="true" className="ambient-grid pointer-events-none fixed inset-0 -z-10 opacity-40" />
+      <div aria-hidden="true" className="ambient-noise pointer-events-none fixed inset-0 -z-10" />
+
       <a
-        className="sr-only left-4 top-4 z-[60] rounded-md bg-cyan-200 px-4 py-2 text-sm font-semibold text-slate-950 focus:fixed focus:not-sr-only focus:outline-none"
+        className="sr-only left-4 top-4 z-[60] rounded-full bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 focus:fixed focus:not-sr-only focus:outline-none"
         href="#main-content"
       >
         Skip to content
       </a>
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/78 backdrop-blur-xl">
-        <div className="relative mx-auto flex min-h-16 w-full max-w-7xl flex-nowrap items-center justify-between gap-3 px-5 py-3 sm:px-6 lg:px-8">
+      <ScrollHeader>
+        <div className="relative mx-auto flex min-h-[4.25rem] w-full max-w-6xl flex-nowrap items-center justify-between gap-3 px-6 py-3 sm:px-8 lg:px-10">
           <Link
-            className="flex min-w-0 items-center gap-3 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+            className="flex min-w-0 items-center gap-3 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
             href="/"
             aria-label="Hypersnap home"
             suppressHydrationWarning
           >
-            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-cyan-300/35 bg-cyan-300/10">
-              <RadioTower className="h-5 w-5 text-cyan-200" aria-hidden="true" />
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/[0.08]">
+              <RadioTower className="h-5 w-5 text-cyan-300" aria-hidden="true" />
             </span>
-            <span className="text-base font-semibold tracking-normal text-white">hypersnap.org</span>
+            <span className="text-sm font-semibold tracking-tight text-white">hypersnap.org</span>
           </Link>
 
-          <nav className="hidden items-center justify-end gap-1 text-sm text-slate-300 md:flex">
+          <nav className="hidden items-center justify-end gap-0.5 md:flex">
             {navItems.map((item) => (
-              <Link
-                className="rounded-md px-3 py-2 transition hover:bg-white/[0.06] hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-                href={item.href}
-                key={item.href}
-                suppressHydrationWarning
-              >
-                {item.label}
-              </Link>
+              <NavLink href={item.href} key={item.href} label={item.label} />
             ))}
             <a
-              className="ml-1 inline-flex items-center gap-2 rounded-md border border-white/12 bg-white/[0.04] px-3 py-2 text-white transition hover:border-cyan-300/50 hover:bg-cyan-300/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              className="ml-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white transition hover:border-cyan-400/25 hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
               href={sources.organization.url}
               target="_blank"
               rel="noreferrer"
@@ -60,26 +91,22 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
           </nav>
           <MobileNav items={navItems} organizationUrl={sources.organization.url} />
         </div>
-      </header>
+      </ScrollHeader>
       <main id="main-content" tabIndex={-1}>
         {children}
       </main>
-      <footer className="border-t border-white/10">
-        <div className="mx-auto grid w-full max-w-7xl gap-10 px-5 py-12 text-sm text-slate-300 sm:px-6 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-8">
+      <footer className="relative mt-20 border-t border-white/[0.06]">
+        <div className="mx-auto grid w-full max-w-6xl gap-12 px-6 py-16 text-sm text-slate-400 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-10 lg:py-20">
           <div>
             <p className="text-base font-semibold text-white">Hypersnap</p>
-            <p className="mt-3 max-w-md leading-6 text-slate-300">
+            <p className="mt-4 max-w-sm leading-7 text-slate-400">
               A decentralized social network, built by a global community of contributors. No
               company, no VC, no single owner.
             </p>
-            <p className="mt-3 max-w-md leading-6 text-slate-400">
-              The site updates itself from open repositories at github.com/farcasterorg through
-              reviewable PRs.
-            </p>
-            <p className="mt-4 max-w-md leading-6 text-slate-300">
+            <p className="mt-4 max-w-sm leading-7 text-slate-500">
               Hypersnap.org is built and maintained by{" "}
               <a
-                className="rounded-sm font-medium text-cyan-100 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                className="font-medium text-cyan-200/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
                 href={creator.website}
                 target="_blank"
                 rel="noreferrer"
@@ -87,69 +114,41 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               >
                 {creator.name}
               </a>
-              , a solo developer contributing to the new Farcaster.
+              .
             </p>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
-              The project
-            </p>
-            <ul className="mt-4 space-y-2.5">
-              <li>
-                <Link
-                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-                  href="/about"
-                  suppressHydrationWarning
-                >
-                  About
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-                  href="/contribute"
-                  suppressHydrationWarning
-                >
-                  Contribute
-                </Link>
-              </li>
-              <li>
-                <Link
-                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-                  href="/run-a-node"
-                  suppressHydrationWarning
-                >
-                  Run a node
-                </Link>
-              </li>
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">The project</p>
+            <ul className="mt-5 space-y-3">
+              {["/about", "/contribute", "/run-a-node"].map((href) => (
+                <li key={href}>
+                  <Link
+                    className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                    href={href}
+                    suppressHydrationWarning
+                  >
+                    {href === "/about" ? "About" : href === "/contribute" ? "Contribute" : "Run a node"}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
-              For builders
-            </p>
-            <ul className="mt-4 space-y-2.5">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">For builders</p>
+            <ul className="mt-5 space-y-3">
               <li>
-                <Link
-                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-                  href="/docs"
-                  suppressHydrationWarning
-                >
+                <Link className="rounded-sm hover:text-white" href="/docs" suppressHydrationWarning>
                   Docs hub
                 </Link>
               </li>
               <li>
-                <Link
-                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-                  href="/network"
-                  suppressHydrationWarning
-                >
+                <Link className="rounded-sm hover:text-white" href="/network" suppressHydrationWarning>
                   Live network
                 </Link>
               </li>
               <li>
                 <a
-                  className="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                  className="rounded-sm hover:text-white"
                   href={`${sources.publicNode.baseUrl}/v1/info`}
                   suppressHydrationWarning
                 >
@@ -159,14 +158,12 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             </ul>
           </div>
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-200">
-              Made by
-            </p>
-            <ul className="mt-4 space-y-2.5">
+            <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">Made by</p>
+            <ul className="mt-5 space-y-3">
               {creator.links.map((link) => (
                 <li key={link.href}>
                   <a
-                    className="inline-flex items-center gap-2 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                    className="inline-flex items-center gap-2 rounded-sm hover:text-white"
                     href={link.href}
                     target="_blank"
                     rel="noreferrer"
@@ -177,38 +174,22 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
                   </a>
                 </li>
               ))}
-              <li>
-                <a
-                  className="inline-flex items-center gap-2 rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-                  href={sources.organization.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  suppressHydrationWarning
-                >
-                  GitHub org
-                  <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
-                </a>
-              </li>
             </ul>
-            <p className="mt-4 max-w-xs text-xs leading-5 text-slate-400">
-              Protocol work happens in public at Farcasterorg. This website is Felirami&apos;s
-              contribution to make the new Farcaster easier to understand and join.
-            </p>
           </div>
         </div>
-        <div className="border-t border-white/5">
-          <div className="mx-auto w-full max-w-7xl px-5 py-5 text-xs text-slate-400 sm:px-6 lg:px-8">
-            Hypersnap.org made by{" "}
+        <div className="border-t border-white/[0.04]">
+          <div className="mx-auto w-full max-w-6xl px-6 py-6 text-xs leading-6 text-slate-500 sm:px-8 lg:px-10">
+            Hypersnap.org · Protocol work is open source at{" "}
             <a
-              className="rounded-sm text-slate-200 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-              href={creator.website}
+              className="font-medium text-cyan-200/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+              href={sources.organization.url}
               target="_blank"
               rel="noreferrer"
               suppressHydrationWarning
             >
-              {creator.handle}
+              github.com/farcasterorg
             </a>
-            . Hypersnap protocol work stays open at Farcasterorg.
+            , where all repos live and anyone can contribute.
           </div>
         </div>
       </footer>

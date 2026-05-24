@@ -59,15 +59,15 @@ export default async function DocPage({ params }: { params: Promise<Params> }) {
   return (
     <div className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_14rem]">
       <article className="min-w-0">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-cyan-100">
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
           {doc.section}
         </p>
-        <h1 className="mt-3 text-balance text-4xl font-semibold tracking-normal text-white sm:text-5xl">
-          {doc.title}
+        <h1 className="mt-4 text-balance text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl">
+          <span className="text-gradient-hero">{doc.title}</span>
         </h1>
-        <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-400">
+        <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-slate-500">
           <span className="inline-flex items-center gap-1.5">
-            <GitBranch aria-hidden="true" className="h-4 w-4 text-cyan-200" />
+            <GitBranch aria-hidden="true" className="h-4 w-4 text-cyan-300/80" />
             <span>
               Source: <code className="font-mono text-slate-300">{doc.repoName}/{doc.sourcePath}</code>
             </span>
