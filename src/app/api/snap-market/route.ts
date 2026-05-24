@@ -72,6 +72,11 @@ export async function GET() {
 
     const priceUsd = numberOrNull(pair.priceUsd);
     const correctedFdv = priceUsd === null ? null : correctedSnapFdv(priceUsd);
+    const dexscreenerFdv = numberOrNull(pair.fdv);
+    const fdvMultiple =
+      correctedFdv !== null && dexscreenerFdv !== null && dexscreenerFdv > 0
+        ? correctedFdv / dexscreenerFdv
+        : null;
     const h24Txns = pair.txns?.h24;
 
     return Response.json(
@@ -89,8 +94,10 @@ export async function GET() {
         market: {
           priceUsd,
           priceNative: numberOrNull(pair.priceNative),
+          trueFdv: correctedFdv,
           correctedFdv,
-          dexscreenerFdv: numberOrNull(pair.fdv),
+          dexscreenerFdv,
+          fdvMultiple,
           dexscreenerMarketCap: numberOrNull(pair.marketCap),
           liquidityUsd: numberOrNull(pair.liquidity?.usd),
           liquiditySnap: numberOrNull(pair.liquidity?.base),

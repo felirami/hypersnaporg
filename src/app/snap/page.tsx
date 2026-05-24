@@ -1,14 +1,14 @@
 import type { CSSProperties } from "react";
 import type { Metadata } from "next";
-import { Activity, AlertTriangle, GitBranch, GitPullRequest, Sparkles } from "lucide-react";
+import { Activity, AlertTriangle, CheckCircle2, GitBranch, GitPullRequest, Sparkles } from "lucide-react";
 import { SnapMarketDashboard } from "@/components/snap-market-dashboard";
-import { CodeBlock, InfoPanel, LinkButton, PageHeader, Section, StatCard } from "@/components/ui";
+import { CodeBlock, InfoPanel, LinkButton, Section, StatCard } from "@/components/ui";
 import { SNAP, SNAP_PHASE_ONE_OPENED, SNAP_RETRO_ALLOCATION, SNAP_TOTAL_SUPPLY } from "@/lib/snap";
 
 export const metadata: Metadata = {
   title: "$SNAP",
   description:
-    "$SNAP token information for Hypersnap: live market data, corrected FDV, retro rewards, claim links, contract details, and public discussions.",
+    "$SNAP token information for Hypersnap: live market data, true FDV, retro rewards, claim links, contract details, and public discussions.",
   alternates: {
     canonical: "/snap",
   },
@@ -27,7 +27,7 @@ const phaseStyle = {
 } as CSSProperties;
 
 const supplyRows = [
-  { label: "Total supply", value: "200B", detail: "Known full supply used for corrected FDV." },
+  { label: "Total supply", value: "200B", detail: "Known full supply used for true FDV." },
   { label: "Retro rewards allocation", value: "200M", detail: `${retroPercent.toFixed(1)}% of total supply.` },
   { label: "Phase 1 opened", value: "33M", detail: `${phaseOnePercentOfRetro.toFixed(1)}% of retro allocation; ${phaseOnePercentOfSupply.toFixed(3)}% of total supply.` },
 ];
@@ -46,27 +46,71 @@ const timeline = [
   {
     label: "Market",
     title: "The token trades on Ethereum",
-    body: "Dexscreener is used for live price, liquidity, volume, and transaction data. Hypersnap.org calculates FDV from the correct 200B supply.",
+    body: "Dexscreener is used for live price, liquidity, volume, and transaction data. Hypersnap.org calculates true FDV from Dexscreener price × 200B supply.",
   },
+];
+
+const quickFacts = [
+  ["Chain", "Ethereum"],
+  ["Claim", "Hypria"],
+  ["Pair", "Uniswap v4"],
 ];
 
 export default function SnapPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="$SNAP"
-        title="The Hypersnap token, without the indexer fog."
-        description="Live price data, corrected FDV, claim status, supply math, and the public discussions behind the rollout. No hype math. No fake precision."
-      />
+      <section className="relative isolate overflow-hidden border-b border-white/10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(103,232,249,0.2),transparent_32rem),radial-gradient(circle_at_80%_15%,rgba(251,191,36,0.13),transparent_28rem),linear-gradient(180deg,#020617_0%,#050817_100%)]" />
+        <div aria-hidden="true" className="absolute inset-0 opacity-20 [background-image:linear-gradient(rgba(125,211,252,0.16)_1px,transparent_1px),linear-gradient(90deg,rgba(125,211,252,0.12)_1px,transparent_1px)] [background-size:64px_64px]" />
+        <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-5 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-24">
+          <div className="flex flex-col justify-center">
+            <p className="inline-flex w-fit rounded-full border border-cyan-300/25 bg-cyan-300/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.14em] text-cyan-100">
+              $SNAP
+            </p>
+            <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold tracking-normal text-white sm:text-7xl">
+              Market data, supply math, and the public source trail.
+            </h1>
+            <p className="mt-6 max-w-3xl text-pretty text-lg leading-8 text-slate-300">
+              Dexscreener is useful for price, liquidity, and volume. Its FDV is not the source of truth here. Hypersnap.org calculates true FDV from the live Dexscreener price multiplied by the known 200B $SNAP supply.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <LinkButton href={SNAP.claimUrl} external>
+                Claim on Hypria
+              </LinkButton>
+              <LinkButton href={SNAP.dexscreenerUrl} variant="secondary" external>
+                View Dexscreener
+              </LinkButton>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-slate-950/50 p-5 shadow-2xl shadow-slate-950/35 backdrop-blur-xl">
+            <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">Token card</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              {quickFacts.map(([label, value]) => (
+                <div className="rounded-lg border border-white/10 bg-white/[0.045] p-4" key={label}>
+                  <p className="text-xs uppercase tracking-[0.12em] text-slate-400">{label}</p>
+                  <p className="mt-2 font-mono text-xl text-white">{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 rounded-lg border border-cyan-300/20 bg-cyan-300/[0.06] p-4">
+              <p className="text-xs uppercase tracking-[0.12em] text-cyan-100">Contract</p>
+              <p className="mt-2 break-all font-mono text-sm leading-6 text-white">{SNAP.contract}</p>
+            </div>
+            <p className="mt-4 text-xs leading-5 text-slate-400">
+              Verify the contract before claiming or trading. This page is informational, not financial advice.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      <Section eyebrow="Market" title="Live market data, corrected for the real supply.">
+      <Section eyebrow="Market" title="Live market data with true FDV.">
         <SnapMarketDashboard />
       </Section>
 
       <Section
         eyebrow="Supply"
         title="The core numbers are simple."
-        description="Dexscreener can be useful for market data, but the supply and FDV shown by third-party indexers may be wrong. Hypersnap.org uses the known 200B supply for FDV."
+        description="Supply, retro rewards, and claim phases are different concepts. Mixing them together is how indexer fog turns into misinformation."
       >
         <div className="grid gap-4 md:grid-cols-3">
           {supplyRows.map((row) => (
@@ -74,61 +118,35 @@ export default function SnapPage() {
           ))}
         </div>
         <div className="mt-6 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
-            <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">Total supply view</p>
-            <div className="mt-6 flex flex-col items-center gap-6 sm:flex-row">
-              <div
-                aria-hidden="true"
-                className="h-44 w-44 shrink-0 rounded-full border border-white/10 shadow-2xl shadow-slate-950/25"
-                style={{
-                  background:
-                    "conic-gradient(rgb(251 191 36) 0 var(--retro), rgba(255,255,255,0.08) var(--retro) 360deg)",
-                  ...allocationStyle,
-                }}
-              />
-              <div className="text-sm leading-6 text-slate-300">
-                <p className="text-lg font-semibold text-white">Retro allocation: 0.1% of supply</p>
-                <p className="mt-2">
-                  200M $SNAP is allocated to retro rewards out of 200B total supply. The visible slice is intentionally tiny because the allocation is tiny relative to total supply.
-                </p>
-                <div className="mt-4 space-y-2">
-                  <Legend color="bg-amber-300" label="Retro rewards allocation" value="200M" />
-                  <Legend color="bg-white/20" label="Rest of supply" value="199.8B" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
-            <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">Retro rewards view</p>
-            <div className="mt-6 flex flex-col items-center gap-6 sm:flex-row">
-              <div
-                aria-hidden="true"
-                className="h-44 w-44 shrink-0 rounded-full border border-white/10 shadow-2xl shadow-slate-950/25"
-                style={{
-                  background:
-                    "conic-gradient(rgb(103 232 249) 0 var(--phase-one), rgba(255,255,255,0.08) var(--phase-one) 360deg)",
-                  ...phaseStyle,
-                }}
-              />
-              <div className="text-sm leading-6 text-slate-300">
-                <p className="text-lg font-semibold text-white">Phase 1 opened 16.5% of retro rewards</p>
-                <p className="mt-2">
-                  33M $SNAP opened in Phase 1. The remaining 167M retro allocation is not the same thing as circulating supply or total supply.
-                </p>
-                <div className="mt-4 space-y-2">
-                  <Legend color="bg-cyan-300" label="Phase 1 opened" value="33M" />
-                  <Legend color="bg-white/20" label="Remaining retro allocation" value="167M" />
-                </div>
-              </div>
-            </div>
-          </div>
+          <SupplyChartCard
+            accent="amber"
+            style={allocationStyle}
+            title="Retro allocation: 0.1% of supply"
+            eyebrow="Total supply view"
+            body="200M $SNAP is allocated to retro rewards out of 200B total supply. The visible slice is intentionally tiny because the allocation is tiny relative to total supply."
+            legend={[
+              ["Retro rewards allocation", "200M", "bg-amber-300"],
+              ["Rest of supply", "199.8B", "bg-white/20"],
+            ]}
+          />
+          <SupplyChartCard
+            accent="cyan"
+            style={phaseStyle}
+            title="Phase 1 opened 16.5% of retro rewards"
+            eyebrow="Retro rewards view"
+            body="33M $SNAP opened in Phase 1. The remaining 167M retro allocation is not the same thing as circulating supply or total supply."
+            legend={[
+              ["Phase 1 opened", "33M", "bg-cyan-300"],
+              ["Remaining retro allocation", "167M", "bg-white/20"],
+            ]}
+          />
         </div>
       </Section>
 
       <Section
         eyebrow="How it works"
         title="$SNAP connects contribution, claims, and market data."
-        description="There are three separate layers people often mix together. Keep them separate and the token story becomes much easier to understand."
+        description="Three layers. Keep them separate and the token story becomes much easier to understand."
       >
         <div className="grid gap-5 md:grid-cols-3">
           <InfoPanel icon={GitBranch} title="1. Protocol discussion">
@@ -143,7 +161,7 @@ export default function SnapPage() {
           </InfoPanel>
           <InfoPanel icon={Activity} title="3. Market trading">
             <p>
-              Market price, liquidity, volume, and transactions come from the live Ethereum pool. FDV here is calculated from price × 200B supply.
+              Market price, liquidity, volume, and transactions come from the live Ethereum pool. True FDV here is calculated from Dexscreener price × 200B supply.
             </p>
           </InfoPanel>
         </div>
@@ -159,7 +177,7 @@ export default function SnapPage() {
 
       <Section eyebrow="Claim and verify" title="Use the contract address, not vibes.">
         <div className="grid gap-5 lg:grid-cols-[1fr_0.9fr]">
-          <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
+          <div className="rounded-xl border border-white/10 bg-white/[0.04] p-6">
             <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">Contract</p>
             <h2 className="mt-3 text-2xl font-semibold text-white">$SNAP on Ethereum</h2>
             <p className="mt-3 text-sm leading-6 text-slate-300">
@@ -178,10 +196,15 @@ export default function SnapPage() {
             </div>
           </div>
           <div className="grid gap-4">
-            {timeline.map((item) => (
-              <div className="rounded-lg border border-white/10 bg-white/[0.04] p-5" key={item.label}>
-                <p className="text-xs uppercase tracking-[0.12em] text-cyan-100">{item.label}</p>
-                <h3 className="mt-2 text-lg font-semibold text-white">{item.title}</h3>
+            {timeline.map((item, index) => (
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-5" key={item.label}>
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-full border border-cyan-300/25 bg-cyan-300/10 font-mono text-sm text-cyan-100">
+                    {index + 1}
+                  </span>
+                  <p className="text-xs uppercase tracking-[0.12em] text-cyan-100">{item.label}</p>
+                </div>
+                <h3 className="mt-3 text-lg font-semibold text-white">{item.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-300">{item.body}</p>
               </div>
             ))}
@@ -206,6 +229,49 @@ export default function SnapPage() {
         </div>
       </Section>
     </>
+  );
+}
+
+function SupplyChartCard({
+  accent,
+  style,
+  eyebrow,
+  title,
+  body,
+  legend,
+}: {
+  accent: "amber" | "cyan";
+  style: CSSProperties;
+  eyebrow: string;
+  title: string;
+  body: string;
+  legend: [string, string, string][];
+}) {
+  const gradient =
+    accent === "amber"
+      ? "conic-gradient(rgb(251 191 36) 0 var(--retro), rgba(255,255,255,0.08) var(--retro) 360deg)"
+      : "conic-gradient(rgb(103 232 249) 0 var(--phase-one), rgba(255,255,255,0.08) var(--phase-one) 360deg)";
+
+  return (
+    <div className="rounded-xl border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.08),transparent_22rem),rgba(255,255,255,0.04)] p-6">
+      <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">{eyebrow}</p>
+      <div className="mt-6 grid gap-6 sm:grid-cols-[12rem_1fr] sm:items-center">
+        <div className="relative mx-auto h-48 w-48 sm:mx-0">
+          <div aria-hidden="true" className="absolute inset-0 rounded-full border border-white/10 shadow-2xl shadow-slate-950/25" style={{ background: gradient, ...style }} />
+          <div className="absolute inset-10 rounded-full border border-white/10 bg-slate-950/88" />
+          <CheckCircle2 className="absolute left-1/2 top-1/2 h-8 w-8 -translate-x-1/2 -translate-y-1/2 text-white/80" aria-hidden="true" />
+        </div>
+        <div className="text-sm leading-6 text-slate-300">
+          <p className="text-lg font-semibold text-white">{title}</p>
+          <p className="mt-2">{body}</p>
+          <div className="mt-4 space-y-2">
+            {legend.map(([label, value, color]) => (
+              <Legend color={color} key={label} label={label} value={value} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
