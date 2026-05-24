@@ -2,22 +2,21 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import {
   BookOpen,
-  ChartNoAxesCombined,
-  CircleDollarSign,
   GitBranch,
   GitPullRequest,
   Globe,
   RadioTower,
   Server,
-  Sparkles,
   Terminal,
   UserRound,
   Users,
 } from "lucide-react";
 import { NetworkStatusGrid } from "@/components/network-status";
+import { SnapMarketDashboard } from "@/components/snap-market-dashboard";
 import { Badge, CodeBlock, InfoPanel, LinkButton, Section, StatCard } from "@/components/ui";
 import { formatDate } from "@/lib/format";
 import { creator } from "@/lib/creator";
+import { SNAP } from "@/lib/snap";
 import { sources } from "@/lib/sources";
 
 export const revalidate = 60;
@@ -55,31 +54,21 @@ const heroSignals = [
   { label: "Sync cadence", value: "daily review PRs", className: "right-2 top-[22rem]" },
 ];
 
-const snap = {
-  contract: "0x49B5a631F54927c0007232844f06FE18cbf69786",
-  claimUrl: "https://hypria.app",
-  dexscreenerUrl:
-    "https://dexscreener.com/ethereum/0x72a70a747a8390caf1aad3fb1de3564b55871f137539e498d30f02b1167742ea",
-};
-
 const snapStats = [
   {
     label: "Total supply",
     value: "200B",
     detail: "Fixed $SNAP supply. Dexscreener may report supply or FDV incorrectly for the live pool.",
-    icon: CircleDollarSign,
   },
   {
     label: "Retro allocation",
     value: "200M",
     detail: "Community retro rewards allocation, separate from total supply.",
-    icon: Sparkles,
   },
   {
     label: "Phase 1 opened",
     value: "33M",
     detail: "The first claim phase opened 33M $SNAP through Hypria.",
-    icon: ChartNoAxesCombined,
   },
 ];
 
@@ -148,38 +137,28 @@ export default function Home() {
         id="snap"
         eyebrow="$SNAP"
         title="$SNAP is live. Keep the numbers straight."
-        description="The token is part of the Hypersnap ecosystem rollout and retro rewards process. This is ecosystem information, not financial advice, and it should not be read as a purchase recommendation."
+        description="The token is part of the Hypersnap ecosystem rollout and retro rewards process. Live market data belongs on its own page, with corrected FDV math and source links."
       >
-        <div className="grid gap-5 lg:grid-cols-[1fr_0.95fr]">
+        <div className="grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
             {snapStats.map((stat) => (
-              <StatCard
-                detail={stat.detail}
-                icon={stat.icon}
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-              />
+              <StatCard detail={stat.detail} key={stat.label} label={stat.label} value={stat.value} />
             ))}
           </div>
-          <div className="rounded-lg border border-amber-200/20 bg-amber-200/[0.055] p-6">
-            <p className="text-sm uppercase tracking-[0.14em] text-amber-100">Live market data</p>
-            <h3 className="mt-3 text-2xl font-semibold text-white">Use the contract. Verify the pool.</h3>
-            <p className="mt-4 text-sm leading-6 text-slate-300">
-              $SNAP trades on Ethereum. Dexscreener is useful for live market data, but its supply
-              and FDV math can be wrong for this pool. Treat the 200B total supply, 200M retro
-              allocation, and 33M Phase 1 opening as the current source-of-truth numbers shown here.
-            </p>
-            <div className="mt-5">
-              <CodeBlock label="$SNAP contract" command={snap.contract} />
-            </div>
-            <div className="mt-6 flex flex-wrap gap-3">
-              <LinkButton href={snap.claimUrl} external>
-                Claim on Hypria
-              </LinkButton>
-              <LinkButton href={snap.dexscreenerUrl} variant="secondary" external>
-                View Dexscreener
-              </LinkButton>
+          <div className="grid gap-4">
+            <SnapMarketDashboard variant="compact" />
+            <div className="rounded-lg border border-white/10 bg-white/[0.04] p-6">
+              <p className="text-sm uppercase tracking-[0.14em] text-cyan-100">Full explainer</p>
+              <h3 className="mt-3 text-2xl font-semibold text-white">Price, corrected FDV, charts, claims, and discussions.</h3>
+              <p className="mt-4 text-sm leading-6 text-slate-300">
+                The $SNAP page separates market data from supply data, explains the 200B / 200M / 33M numbers, and links to the public FIP discussions.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <LinkButton href="/snap">Open $SNAP page</LinkButton>
+                <LinkButton href={SNAP.claimUrl} variant="secondary" external>
+                  Claim on Hypria
+                </LinkButton>
+              </div>
             </div>
           </div>
         </div>

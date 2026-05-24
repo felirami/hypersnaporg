@@ -7,7 +7,7 @@ import { sources } from "@/lib/sources";
 const navItems = [
   { href: "/about", label: "About" },
   { href: "/network", label: "Network" },
-  { href: "/#snap", label: "$SNAP" },
+  { href: "/snap", label: "$SNAP" },
   { href: "/run-a-node", label: "Run a node" },
   { href: "/docs", label: "Docs" },
   { href: "/contribute", label: "Contribute" },
