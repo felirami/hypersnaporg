@@ -2,28 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Activity, AlertTriangle, ArrowUpRight, Database } from "lucide-react";
-
-type SnapMarketResponse = {
-  ok: boolean;
-  sourceUrl?: string;
-  updatedAt?: string;
-  error?: string;
-  market?: {
-    priceUsd: number | null;
-    priceNative: number | null;
-    trueFdv?: number | null;
-    correctedFdv: number | null;
-    dexscreenerFdv: number | null;
-    fdvMultiple?: number | null;
-    liquidityUsd: number | null;
-    liquiditySnap: number | null;
-    liquidityEth: number | null;
-    volume24h: number | null;
-    priceChange24h: number | null;
-    priceChange6h: number | null;
-    txns24h: { buys: number; sells: number; total: number } | null;
-  };
-};
+import type { SnapMarketResponse } from "@/lib/snap-market";
 
 type Variant = "full" | "compact";
 
@@ -89,9 +68,15 @@ function Metric({
   );
 }
 
-export function SnapMarketDashboard({ variant = "full" }: { variant?: Variant }) {
-  const [data, setData] = useState<SnapMarketResponse | null>(null);
-  const [loading, setLoading] = useState(true);
+export function SnapMarketDashboard({
+  variant = "full",
+  initialData,
+}: {
+  variant?: Variant;
+  initialData?: SnapMarketResponse;
+}) {
+  const [data, setData] = useState<SnapMarketResponse | null>(initialData ?? null);
+  const [loading, setLoading] = useState(!initialData);
 
   useEffect(() => {
     let cancelled = false;

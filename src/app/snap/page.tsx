@@ -13,6 +13,7 @@ import {
   WarningPanel,
 } from "@/components/ui";
 import { SNAP, SNAP_PHASE_ONE_OPENED, SNAP_RETRO_ALLOCATION, SNAP_TOTAL_SUPPLY } from "@/lib/snap";
+import { getSnapMarketData } from "@/lib/snap-market";
 
 export const metadata: Metadata = {
   title: "$SNAP",
@@ -57,7 +58,9 @@ const quickFacts = [
   ["Pair", "Uniswap v4"],
 ];
 
-export default function SnapPage() {
+export default async function SnapPage() {
+  const snapMarket = await getSnapMarketData();
+
   return (
     <>
       <InnerPageHero
@@ -93,7 +96,7 @@ export default function SnapPage() {
 
       <Section eyebrow="Market" title="Live market data with true FDV.">
         <Reveal>
-          <SnapMarketDashboard />
+          <SnapMarketDashboard initialData={snapMarket} />
         </Reveal>
       </Section>
 

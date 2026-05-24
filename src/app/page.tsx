@@ -18,6 +18,7 @@ import { SnapMarketDashboard } from "@/components/snap-market-dashboard";
 import { CodeBlock, InfoPanel, LinkButton, Section, StatCard } from "@/components/ui";
 import { formatDate } from "@/lib/format";
 import { creator } from "@/lib/creator";
+import { getSnapMarketData } from "@/lib/snap-market";
 import { SNAP } from "@/lib/snap";
 import { sources } from "@/lib/sources";
 
@@ -68,7 +69,9 @@ const snapStats = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const snapMarket = await getSnapMarketData();
+
   return (
     <>
       <HeroSection />
@@ -115,7 +118,7 @@ export default function Home() {
               ))}
             </div>
             <div className="grid gap-5">
-              <SnapMarketDashboard variant="compact" />
+              <SnapMarketDashboard initialData={snapMarket} variant="compact" />
               <div className="glass-panel rounded-2xl p-7">
                 <p className="text-sm uppercase tracking-[0.14em] text-slate-500">Full explainer</p>
                 <h3 className="mt-3 text-2xl font-semibold tracking-tight text-white">

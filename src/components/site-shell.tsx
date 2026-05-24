@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { MobileNav } from "@/components/mobile-nav";
 import { ScrollHeader } from "@/components/scroll-header";
 import { creator } from "@/lib/creator";
-import { sources } from "@/lib/sources";
+import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -74,13 +74,13 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             <span className="text-sm font-semibold tracking-tight text-white">hypersnap.org</span>
           </Link>
 
-          <nav className="hidden items-center justify-end gap-0.5 md:flex">
+          <nav aria-label="Primary navigation" className="hidden items-center justify-end gap-0.5 md:flex">
             {navItems.map((item) => (
               <NavLink href={item.href} key={item.href} label={item.label} />
             ))}
             <a
               className="ml-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white transition hover:border-cyan-400/25 hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
-              href={sources.organization.url}
+              href={siteConfig.organizationUrl}
               target="_blank"
               rel="noreferrer"
               suppressHydrationWarning
@@ -89,7 +89,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               GitHub
             </a>
           </nav>
-          <MobileNav items={navItems} organizationUrl={sources.organization.url} />
+          <MobileNav items={navItems} organizationUrl={siteConfig.organizationUrl} />
         </div>
       </ScrollHeader>
       <main id="main-content" tabIndex={-1}>
@@ -149,7 +149,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
               <li>
                 <a
                   className="rounded-sm hover:text-white"
-                  href={`${sources.publicNode.baseUrl}/v1/info`}
+                  href={`${siteConfig.publicNodeBaseUrl}/v1/info`}
                   suppressHydrationWarning
                 >
                   Public node info
@@ -182,7 +182,7 @@ export function SiteShell({ children }: { children: React.ReactNode }) {
             Hypersnap.org · Protocol work is open source at{" "}
             <a
               className="font-medium text-cyan-200/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
-              href={sources.organization.url}
+              href={siteConfig.organizationUrl}
               target="_blank"
               rel="noreferrer"
               suppressHydrationWarning
