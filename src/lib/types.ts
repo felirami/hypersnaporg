@@ -99,3 +99,19 @@ export type NetworkStatus = {
   info: NetworkInfo | null;
   error?: string;
 };
+
+export type FarcasterNode = {
+  name: string;
+  rpcUrl: string;
+  operator?: string;
+};
+
+export type NodeHealthStatus = {
+  node: FarcasterNode;
+  ok: boolean;
+  latencyMs: number | null;
+  version: string | null;
+  numShards: number | null;
+  peerId: string | null;
+  error?: string;
+};
