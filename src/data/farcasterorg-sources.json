@@ -8,7 +8,7 @@
     "publicRepoCount": 4,
     "createdAt": "2026-02-15T23:02:53Z"
   },
-  "sourceUpdatedAt": "2026-05-20T05:16:55Z",
+  "sourceUpdatedAt": "2026-06-01T10:43:17Z",
   "publicNode": {
     "baseUrl": "https://haatz.quilibrium.com",
     "infoEndpoint": "/v1/info",
@@ -58,11 +58,11 @@
       "isEmpty": false,
       "primaryLanguage": "Rust",
       "license": "GPL-3.0",
-      "stars": 58,
+      "stars": 59,
       "forks": 22,
-      "openIssues": 13,
-      "pushedAt": "2026-05-20T05:16:55Z",
-      "updatedAt": "2026-05-21T09:21:25Z",
+      "openIssues": 14,
+      "pushedAt": "2026-06-01T10:43:17Z",
+      "updatedAt": "2026-05-30T12:07:45Z",
       "latestRelease": {
         "tagName": "v0.11.8",
         "name": "v0.11.8",
@@ -362,11 +362,11 @@
       "isEmpty": false,
       "primaryLanguage": "JavaScript",
       "license": null,
-      "stars": 0,
+      "stars": 1,
       "forks": 0,
       "openIssues": 0,
       "pushedAt": "2026-04-14T02:06:12Z",
-      "updatedAt": "2026-04-14T02:06:16Z",
+      "updatedAt": "2026-05-25T15:38:36Z",
       "latestRelease": null,
       "readmeSummary": "Developer documentation for the Hypersnap Farcaster API, built as a static mdBook site with compile time search and LLM friendly plain text exports. src/ — plain markdown source, organized by topic ( concepts/ , reference/ , guides/ , agents/ , appendix/ ). book.toml — mdBook configuration. Compile time search is enabled — the index ships with the site, no external service required. theme/custom.css — minor visual...",
       "readmeHeadings": [
