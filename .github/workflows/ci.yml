@@ -32,3 +32,7 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # DEXSCREENER_PAIR_URL defaults to the canonical SNAP/ETH pair when unset.
+          # Explicitly pass it here so CI mirrors production configuration.
+          DEXSCREENER_PAIR_URL: ${{ vars.DEXSCREENER_PAIR_URL || '' }}

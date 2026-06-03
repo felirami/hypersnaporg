@@ -2,6 +2,9 @@ export const SNAP_TOTAL_SUPPLY = 200_000_000_000;
 export const SNAP_RETRO_ALLOCATION = 200_000_000;
 export const SNAP_PHASE_ONE_OPENED = 33_000_000;
 
+const DEFAULT_DEXSCREENER_API_URL =
+  "https://api.dexscreener.com/latest/dex/pairs/ethereum/0x72a70a747a8390caf1aad3fb1de3564b55871f137539e498d30f02b1167742ea";
+
 export const SNAP = {
   symbol: "SNAP",
   name: "Hypersnap",
@@ -11,8 +14,7 @@ export const SNAP = {
   claimUrl: "https://hypria.app",
   dexscreenerUrl:
     "https://dexscreener.com/ethereum/0x72a70a747a8390caf1aad3fb1de3564b55871f137539e498d30f02b1167742ea",
-  dexscreenerApiUrl:
-    "https://api.dexscreener.com/latest/dex/pairs/ethereum/0x72a70a747a8390caf1aad3fb1de3564b55871f137539e498d30f02b1167742ea",
+  dexscreenerApiUrl: process.env.DEXSCREENER_PAIR_URL || DEFAULT_DEXSCREENER_API_URL,
   discussions: [
     {
       label: "FIP-19: Proof-of-Work Tokenomics",
