@@ -89,7 +89,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-[#030712]">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteStructuredData).replace(/</g, '\\u003c') }}
         />
         <SiteShell>{children}</SiteShell>
         <Analytics />
