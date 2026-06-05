@@ -8,6 +8,8 @@ import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeHighlight from "rehype-highlight";
+import rehypeRaw from "rehype-raw";
+import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import { toString as mdastToString } from "mdast-util-to-string";
 import GithubSlugger from "github-slugger";
@@ -224,6 +226,8 @@ async function renderMarkdownToHtml(markdown, currentDir) {
     .use(() => remarkRewriteInternalLinks(currentDir))
     .use(captureTocPlugin(toc))
     .use(remarkRehype, { allowDangerousHtml: true })
+    .use(rehypeRaw)
+    .use(rehypeSanitize)
     .use(rehypeSlug)
     .use(rehypeAutolinkHeadings, {
       behavior: "append",
