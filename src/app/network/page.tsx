@@ -20,7 +20,7 @@ export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Network",
-  description: "Access the Hypersnap public node, live status, HTTP API, gRPC port, and shard data.",
+  description: "Access Hypersnap public nodes, Ardea / Arca node status, HTTP API endpoints, and shard data.",
   alternates: {
     canonical: "/network",
   },
@@ -34,13 +34,13 @@ export default async function NetworkPage() {
     <>
       <PageHeader
         eyebrow="Network access"
-        title="A live look at the network."
-        description="If you're a builder or operator, this page is your control room — endpoints, node status, shard data. If you're not technical, that's fine: the numbers below come from a real public node, refreshed every minute."
+        title="Live Hypersnap nodes, not vibes."
+        description="A builder/operator view of the public Hypersnap node, Ardea's Arca-run node, and nearby Farcaster hub endpoints. Public node stats refresh every minute; hosted hub providers that require credentials are marked auth gated instead of being misreported as dead."
       />
 
       <Section
         title="Current public node status"
-        description={`Status is read from ${sources.publicNode.baseUrl}${sources.publicNode.infoEndpoint} and cached for 60 seconds.`}
+        description={`Primary status is read from ${sources.publicNode.baseUrl}${sources.publicNode.infoEndpoint}; the endpoint grid also probes Ardea and known Farcaster hub providers.`}
       >
         <Reveal>
           <Suspense fallback={<div className="glass-panel h-36 rounded-2xl" />}>
@@ -51,10 +51,10 @@ export default async function NetworkPage() {
 
       <Section
         eyebrow="Endpoints"
-        title="Three ways to talk to the network."
-        description="Start with the public HTTP API for reads. Drop down to the node info endpoint for live status. Run your own node when you want full control."
+        title="Four practical ways to talk to the network."
+        description="Start with the public HTTP API for reads. Use /v1/info for node health. Use Ardea's operator site when you want the Arca-run node context, and port 3381 when you want raw node JSON."
       >
-        <Stagger className="grid gap-5 lg:grid-cols-3">
+        <Stagger className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
           <StaggerItem>
             <InfoPanel icon={Braces} title="HTTP API">
               <p className="mb-4">Public read endpoints live under the Farcaster v2-compatible prefix.</p>
@@ -62,9 +62,15 @@ export default async function NetworkPage() {
             </InfoPanel>
           </StaggerItem>
           <StaggerItem>
-            <InfoPanel icon={RadioTower} title="Node info">
+            <InfoPanel icon={RadioTower} title="Primary node info">
               <p className="mb-4">Health, shard heights, message counts, peer ID, and release version.</p>
               <CodeBlock label="Info endpoint" command={`curl ${sources.publicNode.baseUrl}${sources.publicNode.infoEndpoint} | jq .`} />
+            </InfoPanel>
+          </StaggerItem>
+          <StaggerItem>
+            <InfoPanel icon={RadioTower} title="Ardea / Arca node">
+              <p className="mb-4">Ardea is the Arca-run Hypersnap node. The site lives at ardea.arcabot.ai; the node API is exposed on port 3381.</p>
+              <CodeBlock label="Ardea status" command="curl http://209.97.147.208:3381/v1/info | jq ." />
             </InfoPanel>
           </StaggerItem>
           <StaggerItem>

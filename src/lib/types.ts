@@ -100,15 +100,23 @@ export type NetworkStatus = {
   error?: string;
 };
 
+export type NodeHealthState = "online" | "auth-gated" | "degraded" | "unreachable";
+
 export type FarcasterNode = {
   name: string;
   rpcUrl: string;
+  infoUrl?: string;
+  publicUrl?: string;
   operator?: string;
+  network?: "Hypersnap" | "Farcaster";
+  note?: string;
 };
 
 export type NodeHealthStatus = {
   node: FarcasterNode;
   ok: boolean;
+  reachable: boolean;
+  state: NodeHealthState;
   latencyMs: number | null;
   version: string | null;
   numShards: number | null;

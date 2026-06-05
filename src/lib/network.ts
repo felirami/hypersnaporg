@@ -2,32 +2,46 @@ import { sources } from "@/lib/sources";
 import type { FarcasterNode, NetworkInfo, NetworkStatus, NodeHealthStatus } from "@/lib/types";
 
 const INFO_ENDPOINT = `${sources.publicNode.baseUrl}${sources.publicNode.infoEndpoint}`;
+const PUBLIC_NODE_REVALIDATE_SECONDS = 60;
+const NODE_PROBE_TIMEOUT_MS = 10_000;
 
 export const KNOWN_FARCASTER_NODES: FarcasterNode[] = [
   {
     name: "Hypersnap Public",
     rpcUrl: sources.publicNode.baseUrl,
     operator: "Hypersnap",
+    network: "Hypersnap",
+    note: "Canonical public Hypersnap node used by this site.",
   },
   {
-    name: "Neynar Hub 1",
-    rpcUrl: "https://hub.neynar.com",
-    operator: "Neynar",
+    name: "Ardea / Arca",
+    rpcUrl: "http://209.97.147.208:3381",
+    publicUrl: "https://ardea.arcabot.ai",
+    operator: "Arca",
+    network: "Hypersnap",
+    note: "Ardea's public node API. The ardea.arcabot.ai domain is the operator site; the node listener is on port 3381.",
   },
   {
-    name: "Neynar Hub 2",
-    rpcUrl: "https://hub-grpc.neynar.com",
+    name: "Neynar Hub API",
+    rpcUrl: "https://hub-api.neynar.com",
+    publicUrl: "https://neynar.com",
     operator: "Neynar",
+    network: "Farcaster",
+    note: "Reachable hosted Farcaster hub API. It may require a paid/API-key plan, so auth-gated is not the same as offline.",
+  },
+  {
+    name: "Pinata Hub",
+    rpcUrl: "https://hub.pinata.cloud",
+    publicUrl: "https://pinata.cloud",
+    operator: "Pinata",
+    network: "Farcaster",
+    note: "Hosted Farcaster hub endpoint; usually blocks unauthenticated info probes.",
   },
   {
     name: "Standard Crypto Hub",
     rpcUrl: "https://hub.farcaster.standardcrypto.vc",
     operator: "Standard Crypto",
-  },
-  {
-    name: "Pinata Hub",
-    rpcUrl: "https://hub.pinata.cloud",
-    operator: "Pinata",
+    network: "Farcaster",
   },
 ];
 
@@ -35,10 +49,39 @@ function isNetworkInfo(value: unknown): value is NetworkInfo {
   return typeof value === "object" && value !== null;
 }
 
+function statusForHttpCode(status: number): Pick<NodeHealthStatus, "state" | "ok" | "reachable" | "error"> {
+  if ([401, 402, 403].includes(status)) {
+    return {
+      state: "auth-gated",
+      ok: false,
+      reachable: true,
+      error: `HTTP ${status} — reachable, but not publicly readable without credentials`,
+    };
+  }
+
+  return {
+    state: "unreachable",
+    ok: false,
+    reachable: false,
+    error: `HTTP ${status}`,
+  };
+}
+
+function errorMessage(error: unknown) {
+  if (error instanceof Error) {
+    if (error.name === "TimeoutError" || error.message.toLowerCase().includes("timeout")) {
+      return "Timed out";
+    }
+    return error.message;
+  }
+
+  return "Unknown error";
+}
+
 export async function getNetworkStatus(): Promise<NetworkStatus> {
   try {
     const response = await fetch(INFO_ENDPOINT, {
-      next: { revalidate: 60 },
+      next: { revalidate: PUBLIC_NODE_REVALIDATE_SECONDS },
       headers: {
         Accept: "application/json",
       },
@@ -69,33 +112,33 @@ export async function getNetworkStatus(): Promise<NetworkStatus> {
       checkedAt: new Date().toISOString(),
       endpoint: INFO_ENDPOINT,
       info: null,
-      error: error instanceof Error ? error.message : "Unknown network status error",
+      error: errorMessage(error),
     };
   }
 }
 
 async function checkNodeHealth(node: FarcasterNode): Promise<NodeHealthStatus> {
-  const infoUrl = `${node.rpcUrl}/v1/info`;
+  const infoUrl = node.infoUrl ?? `${node.rpcUrl}/v1/info`;
   const start = Date.now();
 
   try {
     const response = await fetch(infoUrl, {
-      next: { revalidate: 60 },
+      next: { revalidate: PUBLIC_NODE_REVALIDATE_SECONDS },
       headers: { Accept: "application/json" },
-      signal: AbortSignal.timeout(10_000),
+      signal: AbortSignal.timeout(NODE_PROBE_TIMEOUT_MS),
     });
 
     const latencyMs = Date.now() - start;
 
     if (!response.ok) {
+      const classified = statusForHttpCode(response.status);
       return {
         node,
-        ok: false,
+        ...classified,
         latencyMs,
         version: null,
         numShards: null,
         peerId: null,
-        error: `HTTP ${response.status}`,
       };
     }
 
@@ -105,6 +148,8 @@ async function checkNodeHealth(node: FarcasterNode): Promise<NodeHealthStatus> {
       return {
         node,
         ok: false,
+        reachable: true,
+        state: "degraded",
         latencyMs,
         version: null,
         numShards: null,
@@ -117,6 +162,8 @@ async function checkNodeHealth(node: FarcasterNode): Promise<NodeHealthStatus> {
     return {
       node,
       ok: true,
+      reachable: true,
+      state: "online",
       latencyMs,
       version: info.version ?? null,
       numShards: info.numShards ?? info.shardInfos?.length ?? null,
@@ -127,11 +174,13 @@ async function checkNodeHealth(node: FarcasterNode): Promise<NodeHealthStatus> {
     return {
       node,
       ok: false,
-      latencyMs: latencyMs > 9_500 ? null : latencyMs,
+      reachable: false,
+      state: "unreachable",
+      latencyMs: latencyMs > NODE_PROBE_TIMEOUT_MS - 500 ? null : latencyMs,
       version: null,
       numShards: null,
       peerId: null,
-      error: error instanceof Error ? error.message : "Unknown error",
+      error: errorMessage(error),
     };
   }
 }
