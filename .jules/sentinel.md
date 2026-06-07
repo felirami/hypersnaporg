@@ -12,3 +12,7 @@
 **Vulnerability:** XSS risk via unsanitized `<` characters in `JSON.stringify` output injected into `<script type="application/ld+json">`.
 **Learning:** `JSON.stringify()` does not automatically escape `<` as `\u003c`. If dynamic or unsanitized content is serialized into a `<script>` tag via `dangerouslySetInnerHTML`, an attacker can include `</script>` to break out of the context and inject malicious scripts.
 **Prevention:** Always replace `<` with `\u003c` when injecting JSON output into script tags, e.g., `JSON.stringify(data).replace(/</g, '\\u003c')`.
+## 2025-06-08 - Added CSP header
+**Vulnerability:** Missing Content-Security-Policy header, leaving the application more vulnerable to XSS and data injection attacks.
+**Learning:** Adding standard security headers in Next.js applications is best done centrally via the headers() function in next.config.ts. The CSP added prevents cross-site scripting attacks while still allowing Next.js defaults to run.
+**Prevention:** Always verify that security headers (like Content-Security-Policy) are configured in next.config.ts in future Next.js applications.
