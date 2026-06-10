@@ -1,6 +1,7 @@
 import { SNAP, correctedSnapFdv } from "@/lib/snap";
 
 export const SNAP_MARKET_REVALIDATE = 30;
+export const MARKET_DATA_TIMEOUT_MS = 10_000;
 
 type DexPeriod = {
   buys?: number;
@@ -79,6 +80,7 @@ export async function getSnapMarketData(): Promise<SnapMarketResponse> {
         "user-agent": "hypersnap.org market data checker",
       },
       next: { revalidate: SNAP_MARKET_REVALIDATE },
+      signal: AbortSignal.timeout(MARKET_DATA_TIMEOUT_MS),
     });
 
     if (!response.ok) {
