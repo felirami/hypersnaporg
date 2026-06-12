@@ -12,3 +12,8 @@
 **Vulnerability:** XSS risk via unsanitized `<` characters in `JSON.stringify` output injected into `<script type="application/ld+json">`.
 **Learning:** `JSON.stringify()` does not automatically escape `<` as `\u003c`. If dynamic or unsanitized content is serialized into a `<script>` tag via `dangerouslySetInnerHTML`, an attacker can include `</script>` to break out of the context and inject malicious scripts.
 **Prevention:** Always replace `<` with `\u003c` when injecting JSON output into script tags, e.g., `JSON.stringify(data).replace(/</g, '\\u003c')`.
+
+## 2025-06-06 - Missing Fetch Timeouts
+**Vulnerability:** Server-Side Resource Exhaustion (DoS risk) due to hanging `fetch` requests.
+**Learning:** The native `fetch` API does not have a default timeout. When querying external APIs or third-party nodes, if the remote server hangs without closing the connection, the process running the fetch will stay suspended indefinitely, tying up resources and eventually causing a denial of service.
+**Prevention:** All external `fetch` calls must include an explicit timeout (e.g., using `signal: AbortSignal.timeout(TIMEOUT_MS)`).
