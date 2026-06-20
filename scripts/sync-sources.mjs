@@ -32,6 +32,7 @@ async function fetchGithubJson(url, { optional = false } = {}) {
       "X-GitHub-Api-Version": "2022-11-28",
       ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
     },
+    signal: AbortSignal.timeout(10000),
   });
 
   if ((response.status === 404 || response.status === 409) && optional) {
@@ -53,6 +54,7 @@ async function fetchGithubText(url, { optional = false } = {}) {
       "X-GitHub-Api-Version": "2022-11-28",
       ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
     },
+    signal: AbortSignal.timeout(10000),
   });
 
   if ((response.status === 404 || response.status === 409) && optional) {
