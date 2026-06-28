@@ -12,3 +12,7 @@
 **Vulnerability:** XSS risk via unsanitized `<` characters in `JSON.stringify` output injected into `<script type="application/ld+json">`.
 **Learning:** `JSON.stringify()` does not automatically escape `<` as `\u003c`. If dynamic or unsanitized content is serialized into a `<script>` tag via `dangerouslySetInnerHTML`, an attacker can include `</script>` to break out of the context and inject malicious scripts.
 **Prevention:** Always replace `<` with `\u003c` when injecting JSON output into script tags, e.g., `JSON.stringify(data).replace(/</g, '\\u003c')`.
+## 2024-06-25 - Native Fetch Timeout Gap
+**Vulnerability:** External HTTP requests made using native `fetch` (in `src/lib/network.ts`, `src/lib/snap-market.ts`, and `scripts/sync-sources.mjs`) lacked explicit timeouts.
+**Learning:** Node's native `fetch` implementation does not have a default timeout. Unresponsive external servers (like GitHub API or Dexscreener) can cause hanging requests, eventually leading to thread/resource exhaustion.
+**Prevention:** Always enforce a timeout on `fetch` calls using `signal: AbortSignal.timeout(TIMEOUT_MS)`.
