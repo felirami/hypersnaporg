@@ -85,6 +85,7 @@ export async function getNetworkStatus(): Promise<NetworkStatus> {
       headers: {
         Accept: "application/json",
       },
+      signal: AbortSignal.timeout(NODE_PROBE_TIMEOUT_MS),
     });
 
     if (!response.ok) {
