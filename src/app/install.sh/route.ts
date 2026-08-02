@@ -1,6 +1,6 @@
 export const dynamic = "force-static";
 
-const INSTALLER_URL = "https://raw.githubusercontent.com/arcabotai/hypersnap/main/install.sh";
+const INSTALLER_URL = "https://raw.githubusercontent.com/arcabotai/hypersnapdoctor/main/install.sh";
 
 export function GET() {
   const script = `#!/usr/bin/env bash

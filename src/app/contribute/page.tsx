@@ -68,10 +68,10 @@ export default function ContributePage() {
             <InfoPanel icon={ShieldCheck} title="Improve node tooling">
               <p className="mb-4">
                 The operator helper lives at{" "}
-                <code className="font-mono text-cyan-200">arcabotai/hypersnap</code>: installer,
+                <code className="font-mono text-cyan-200">arcabotai/hypersnapdoctor</code>: installer,
                 doctor checks, sanitized reports, and safe repair workflows for people running nodes.
               </p>
-              <LinkButton href="https://github.com/arcabotai/hypersnap" variant="secondary" external>
+              <LinkButton href="https://github.com/arcabotai/hypersnapdoctor" variant="secondary" external>
                 Open toolkit repo
               </LinkButton>
             </InfoPanel>

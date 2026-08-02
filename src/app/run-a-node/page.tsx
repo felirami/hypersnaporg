@@ -805,7 +805,7 @@ export default function RunNodePage() {
                   </p>
                   <CodeBlock label="Doctor + report" command={TOOLKIT_DOCTOR_COMMAND} />
                   <div className="mt-4 flex flex-wrap gap-3">
-                    <LinkButton href="https://github.com/arcabotai/hypersnap" variant="secondary" external>
+                    <LinkButton href="https://github.com/arcabotai/hypersnapdoctor" variant="secondary" external>
                       Toolkit source
                     </LinkButton>
                   </div>
@@ -927,8 +927,8 @@ export default function RunNodePage() {
                   icon={Heart}
                 />
                 <SourceLink
-                  href="https://github.com/arcabotai/hypersnap"
-                  label="arcabotai/hypersnap"
+                  href="https://github.com/arcabotai/hypersnapdoctor"
+                  label="arcabotai/hypersnapdoctor"
                   sub="Operator toolkit: hypersnap doctor, share reports, and install helper"
                   icon={Stethoscope}
                 />

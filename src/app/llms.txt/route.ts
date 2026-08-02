@@ -39,7 +39,7 @@ export function GET() {
   lines.push(`- [Live network status](${SITE_URL}/network): Public node, endpoints, shard data.`);
   lines.push(`- [Run a node](${SITE_URL}/run-a-node): Bootstrap, operator toolkit, doctor command, and runbook for node operators.`);
   lines.push(`- [Install helper](${SITE_URL}/install.sh): One-line installer for the open-source hypersnap operator CLI.`);
-  lines.push(`- [Operator toolkit](https://github.com/arcabotai/hypersnap): Source for hypersnap doctor/share/install helper.`);
+  lines.push(`- [Hypersnap Doctor](https://github.com/arcabotai/hypersnapdoctor): Independent diagnostics, safe repair, and support tooling for node operators.`);
   lines.push(`- [Contribute](${SITE_URL}/contribute): How to help build it.`);
   lines.push("");
 
