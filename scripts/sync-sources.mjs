@@ -24,6 +24,7 @@ const DOCS_LINK_LIMIT = 80;
 const README_HEADING_LIMIT = 10;
 
 const githubToken = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
+const GITHUB_FETCH_TIMEOUT_MS = 15000;
 
 async function fetchGithubJson(url, { optional = false } = {}) {
   const response = await fetch(url, {
@@ -32,6 +33,7 @@ async function fetchGithubJson(url, { optional = false } = {}) {
       "X-GitHub-Api-Version": "2022-11-28",
       ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
     },
+    signal: AbortSignal.timeout(GITHUB_FETCH_TIMEOUT_MS),
   });
 
   if ((response.status === 404 || response.status === 409) && optional) {
@@ -53,6 +55,7 @@ async function fetchGithubText(url, { optional = false } = {}) {
       "X-GitHub-Api-Version": "2022-11-28",
       ...(githubToken ? { Authorization: `Bearer ${githubToken}` } : {}),
     },
+    signal: AbortSignal.timeout(GITHUB_FETCH_TIMEOUT_MS),
   });
 
   if ((response.status === 404 || response.status === 409) && optional) {
