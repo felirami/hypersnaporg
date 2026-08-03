@@ -38,3 +38,5 @@ vercel --prod
 ```
 
 The canonical production domain is `https://hypersnap.org`.
+
+Production deploys from `main` in [`arcacomputer/hypersnapweb`](https://github.com/arcacomputer/hypersnapweb).
