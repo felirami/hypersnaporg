@@ -7,8 +7,8 @@ Hypersnap.org is the public website for Hypersnap — a decentralized fork of Sn
 Requirements: Node.js 22 and npm.
 
 ```bash
-git clone https://github.com/farcasterorg/hypersnaporg.git
-cd hypersnaporg
+git clone https://github.com/arcacomputer/hypersnapweb.git
+cd hypersnapweb
 npm install
 npm run dev
 ```

@@ -2,7 +2,7 @@
 
 The public website for Hypersnap, a decentralized fork of Snapchain for Farcaster data, public APIs, node operators, and open protocol contributors.
 
-Hypersnap.org is built and maintained by [Felirami](https://felirami.com), a solo developer contributing to the new Farcaster.
+Hypersnap.org is built and maintained by [Arca Computer](https://arca.computer), with upstream protocol and documentation sources attributed throughout the site.
 
 ## Development
 
