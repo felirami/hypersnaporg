@@ -1,6 +1,7 @@
 "use client";
 
 import { Check, Copy } from "lucide-react";
+import posthog from "posthog-js";
 import { useEffect, useRef, useState } from "react";
 
 type CopyStatus = "idle" | "copied" | "failed";
@@ -32,6 +33,12 @@ export function CopyCommand({ value }: { value: string }) {
 
         try {
           await navigator.clipboard.writeText(value);
+          if (
+            process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
+            process.env.NEXT_PUBLIC_POSTHOG_HOST
+          ) {
+            posthog.capture("command_copied");
+          }
           setStatus("copied");
         } catch {
           setStatus("failed");
