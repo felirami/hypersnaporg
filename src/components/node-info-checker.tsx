@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { AlertTriangle, CheckCircle2, Eraser, Search } from "lucide-react";
+import posthog from "posthog-js";
 
 type Tone = "good" | "warn" | "bad" | "idle";
 
@@ -166,6 +167,12 @@ export function NodeInfoChecker() {
                   text: "Paste the JSON output first, then hit Analyze.",
                 });
                 return;
+              }
+              if (
+                process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN &&
+                process.env.NEXT_PUBLIC_POSTHOG_HOST
+              ) {
+                posthog.capture("node_info_analyzed");
               }
               setResult(classifyInfo(trimmed));
             }}
