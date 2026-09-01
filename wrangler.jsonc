@@ -20,6 +20,12 @@
       "service": "hypersnap-web"
     }
   ],
+  "r2_buckets": [
+    {
+      "binding": "NEXT_INC_CACHE_R2_BUCKET",
+      "bucket_name": "hypersnap-next-cache"
+    }
+  ],
   "observability": {
     "enabled": true
   }
