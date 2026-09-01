@@ -30,13 +30,17 @@ The scheduled GitHub Action in `.github/workflows/sync-farcasterorg-sources.yml`
 
 ## Deployment
 
-The site is designed for Vercel:
+Production targets Cloudflare Workers through the OpenNext adapter:
 
 ```bash
-vercel
-vercel --prod
+npm run build:cf
+npm run preview:cf
+npm run deploy:cf
 ```
 
 The canonical production domain is `https://hypersnap.org`.
 
-Production deploys from `main` in [`arcacomputer/hypersnapweb`](https://github.com/arcacomputer/hypersnapweb).
+The Worker preserves the Next.js App Router pages, generated documentation routes,
+runtime status APIs, installer, LLM indexes, metadata routes, and security headers.
+Production source remains `main` in
+[`arcacomputer/hypersnapweb`](https://github.com/arcacomputer/hypersnapweb).
