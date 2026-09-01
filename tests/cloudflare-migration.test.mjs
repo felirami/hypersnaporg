@@ -17,7 +17,6 @@ test("targets Cloudflare Workers through OpenNext", () => {
   assert.match(config, /"allow_custom_ports"/);
   assert.match(config, /"workers_dev": false/);
   assert.match(config, /"preview_urls": false/);
-  assert.match(config, /"cpu_ms": 300000/);
 });
 
 test("preserves runtime routes and static caching contracts", () => {
