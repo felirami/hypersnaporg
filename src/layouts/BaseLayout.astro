@@ -25,7 +25,7 @@ const { title, description = defaultDescription, noindex = false } = Astro.props
 const pathname = Astro.url.pathname;
 const canonical = canonicalUrl(pathname);
 const fullTitle = pageTitle(title);
-const ogImage = new URL("/opengraph-image.svg", Astro.site ?? "https://hypersnap.org").toString();
+const ogImage = new URL("/opengraph-image", Astro.site ?? "https://hypersnap.org").toString();
 
 const navItems = [
   { href: "/about", label: "About" },
@@ -56,7 +56,9 @@ function isActive(href: string) {
     {noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
     <title>{fullTitle}</title>
     <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icon" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />

@@ -6,6 +6,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   site: "https://hypersnap.org",
   output: "static",
+  trailingSlash: "never",
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

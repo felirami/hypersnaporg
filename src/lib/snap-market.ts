@@ -71,14 +71,26 @@ function numberOrNull(value: unknown) {
   return Number.isFinite(number) ? number : null;
 }
 
-export async function getSnapMarketData(): Promise<SnapMarketResponse> {
-  try {
-    const response = await fetch(SNAP.dexscreenerApiUrl, {
+async function fetchDexscreener(): Promise<Response> {
+  const request = () =>
+    fetch(SNAP.dexscreenerApiUrl, {
       headers: {
         accept: "application/json",
-        "user-agent": "hypersnap.org market data checker",
       },
+      signal: AbortSignal.timeout(8_000),
     });
+
+  let response = await request();
+  if (response.status === 429) {
+    await new Promise((resolve) => setTimeout(resolve, 400));
+    response = await request();
+  }
+  return response;
+}
+
+export async function getSnapMarketData(): Promise<SnapMarketResponse> {
+  try {
+    const response = await fetchDexscreener();
 
     if (!response.ok) {
       throw new Error(`Dexscreener returned ${response.status}`);
