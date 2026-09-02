@@ -4,7 +4,7 @@ The public website for Hypersnap, a decentralized fork of Snapchain for Farcaste
 
 Hypersnap.org is built and maintained by [Arca Computer](https://arca.computer), with upstream protocol and documentation sources attributed throughout the site.
 
-This branch is the **Astro + Cloudflare Workers canary**. It is static HTML (plus a small Worker only for `/api/*` live probes). It is not a DNS or production cutover.
+This branch is the **Astro + Cloudflare Workers canary**. It is static HTML (plus a small Worker only for `/api/*` live probes). After the canary is green, Loica/Degu proceed to the production Worker and DNS cutover — do not stop at canary. This tree does not perform that cutover.
 
 ## Development
 
@@ -26,7 +26,7 @@ npm run build
 
 ## Cloudflare canary
 
-The Wrangler config (`wrangler.jsonc`) targets the existing Worker name `hypersnap-web-canary`. It does **not** create new KV, R2, or D1 resources.
+The Wrangler config (`wrangler.jsonc`) targets the existing Worker name exactly `hypersnap-web-canary`. It does **not** create new KV, R2, or D1 resources.
 
 ```bash
 npm run build
@@ -40,7 +40,7 @@ npx wrangler deploy   # Loica / Degu only — this PR does not deploy
 
 ### OpenNext bridge (untouched)
 
-`cad/cloudflare-migration` remains a temporary **OpenNext** (`@opennextjs/cloudflare`) bridge. Do not expand it. Preferred end state is this Astro canary. Production `hypersnap.org` stays on Vercel until Loica/Degu cut over.
+`cad/cloudflare-migration` remains a temporary **OpenNext** (`@opennextjs/cloudflare`) bridge. Do not expand it. Preferred end state is this Astro canary, then the production Worker + DNS cutover.
 
 ## Source Sync
 
@@ -50,5 +50,6 @@ The scheduled GitHub Action in `.github/workflows/sync-farcasterorg-sources.yml`
 
 ## Deployment
 
-- **Production today:** Vercel from `main` at [`arcacomputer/hypersnapweb`](https://github.com/arcacomputer/hypersnapweb), canonical domain `https://hypersnap.org`
-- **Canary (this tree):** Cloudflare Worker `hypersnap-web-canary`. No DNS change and no Vercel delete in this PR.
+- **Canary (this tree):** Cloudflare Worker `hypersnap-web-canary`. Finish and verify this Worker first.
+- **After canary is green:** Loica/Degu proceed to the production Worker name and DNS cutover for `hypersnap.org`. Do not stop at canary. This PR does not change production DNS and does not delete Vercel.
+- **OpenNext bridge:** `cad/cloudflare-migration` stays untouched until that cutover.
