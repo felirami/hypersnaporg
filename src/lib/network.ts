@@ -2,7 +2,6 @@ import { sources } from "@/lib/sources";
 import type { FarcasterNode, NetworkInfo, NetworkStatus, NodeHealthStatus } from "@/lib/types";
 
 const INFO_ENDPOINT = `${sources.publicNode.baseUrl}${sources.publicNode.infoEndpoint}`;
-const PUBLIC_NODE_REVALIDATE_SECONDS = 60;
 const NODE_PROBE_TIMEOUT_MS = 10_000;
 
 export const KNOWN_FARCASTER_NODES: FarcasterNode[] = [
@@ -81,7 +80,6 @@ function errorMessage(error: unknown) {
 export async function getNetworkStatus(): Promise<NetworkStatus> {
   try {
     const response = await fetch(INFO_ENDPOINT, {
-      next: { revalidate: PUBLIC_NODE_REVALIDATE_SECONDS },
       headers: {
         Accept: "application/json",
       },
@@ -123,7 +121,6 @@ async function checkNodeHealth(node: FarcasterNode): Promise<NodeHealthStatus> {
 
   try {
     const response = await fetch(infoUrl, {
-      next: { revalidate: PUBLIC_NODE_REVALIDATE_SECONDS },
       headers: { Accept: "application/json" },
       signal: AbortSignal.timeout(NODE_PROBE_TIMEOUT_MS),
     });

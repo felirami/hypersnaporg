@@ -13,17 +13,17 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:4321](http://localhost:4321).
 
 ## Scripts
 
 | Script | Purpose |
 | --- | --- |
-| `npm run dev` | Start the Next.js dev server |
-| `npm run build` | Production build |
-| `npm run start` | Serve the production build locally |
+| `npm run dev` | Start the Astro dev server |
+| `npm run build` | Production static build to `./dist` |
+| `npm run preview` | Serve the production build locally |
 | `npm run lint` | Run ESLint |
-| `npm run typecheck` | Run TypeScript without emitting files |
+| `npm run typecheck` | Run `astro check` and TypeScript without emitting files |
 | `npm run sync:sources` | Refresh the curated Farcasterorg source snapshot |
 
 ## Source sync

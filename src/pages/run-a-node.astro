@@ -1,0 +1,11 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { RunNodePage } from "@/components/pages/run-node-page";
+---
+
+<BaseLayout
+  title="Run a node"
+  description="Provision, install, operate, diagnose, and harden a Hypersnap node — preflight, bootstrap, firewall, upgrades, hardening, health checks, and copy-paste templates."
+>
+  <RunNodePage client:load />
+</BaseLayout>

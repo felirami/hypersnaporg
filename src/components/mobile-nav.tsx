@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/components/link";
 import { GitBranch, Menu, X } from "lucide-react";
 import { useId, useState } from "react";
 

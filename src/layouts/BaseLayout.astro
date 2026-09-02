@@ -1,0 +1,222 @@
+---
+import "@fontsource/geist-sans/400.css";
+import "@fontsource/geist-sans/600.css";
+import "@fontsource/geist-mono/400.css";
+import { ExternalLink, GitBranch, RadioTower } from "lucide-react";
+import { MobileNav } from "@/components/mobile-nav";
+import { ScrollHeader } from "@/components/scroll-header";
+import { creator } from "@/lib/creator";
+import {
+  canonicalUrl,
+  defaultDescription,
+  pageTitle,
+  websiteStructuredData,
+} from "@/lib/seo";
+import { siteConfig } from "@/lib/site-config";
+import "@/styles/global.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+};
+
+const { title, description = defaultDescription, noindex = false } = Astro.props;
+const pathname = Astro.url.pathname;
+const canonical = canonicalUrl(pathname);
+const fullTitle = pageTitle(title);
+const ogImage = new URL("/opengraph-image.svg", Astro.site ?? "https://hypersnap.org").toString();
+
+const navItems = [
+  { href: "/about", label: "About" },
+  { href: "/network", label: "Network" },
+  { href: "/snap", label: "$SNAP" },
+  { href: "/run-a-node", label: "Run a node" },
+  { href: "/docs", label: "Docs" },
+  { href: "/contribute", label: "Contribute" },
+];
+
+function isActive(href: string) {
+  return pathname === href || (href !== "/" && pathname.startsWith(href));
+}
+---
+
+<!doctype html>
+<html lang="en" class="h-full antialiased">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#030712" />
+    <meta name="application-name" content="Hypersnap" />
+    <meta name="author" content={creator.name} />
+    <meta name="creator" content={creator.name} />
+    <meta name="publisher" content={creator.name} />
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : null}
+    <title>{fullTitle}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Hypersnap" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(websiteStructuredData).replace(/</g, "\\u003c")} />
+  </head>
+  <body class="min-h-full flex flex-col bg-[#030712]">
+    <div class="relative min-h-screen text-slate-100">
+      <div
+        aria-hidden="true"
+        class="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(ellipse_100%_80%_at_50%_-20%,rgba(56,189,248,0.07),transparent_50%),radial-gradient(ellipse_60%_40%_at_100%_0%,rgba(139,92,246,0.05),transparent_40%),#030712]"
+      >
+      </div>
+      <div aria-hidden="true" class="ambient-grid pointer-events-none fixed inset-0 -z-10 opacity-40"></div>
+      <div aria-hidden="true" class="ambient-noise pointer-events-none fixed inset-0 -z-10"></div>
+
+      <a
+        class="sr-only left-4 top-4 z-[60] rounded-full bg-cyan-400 px-4 py-2 text-sm font-semibold text-slate-950 focus:fixed focus:not-sr-only focus:outline-none"
+        href="#main-content"
+      >
+        Skip to content
+      </a>
+      <ScrollHeader client:load>
+        <div class="relative mx-auto flex min-h-[4.25rem] w-full max-w-6xl flex-nowrap items-center justify-between gap-3 px-6 py-3 sm:px-8 lg:px-10">
+          <a
+            class="flex min-w-0 items-center gap-3 rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+            href="/"
+            aria-label="Hypersnap home"
+          >
+            <span class="flex h-9 w-9 items-center justify-center rounded-xl border border-cyan-400/20 bg-cyan-400/[0.08]">
+              <RadioTower className="h-5 w-5 text-cyan-300" aria-hidden="true" />
+            </span>
+            <span class="text-sm font-semibold tracking-tight text-white">hypersnap.org</span>
+          </a>
+
+          <nav aria-label="Primary navigation" class="hidden items-center justify-end gap-0.5 md:flex">
+            {navItems.map((item) => (
+              <a
+                class:list={[
+                  "relative rounded-full px-3.5 py-2 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200",
+                  isActive(item.href) ? "text-white" : "text-slate-400 hover:text-white",
+                ]}
+                href={item.href}
+              >
+                {isActive(item.href) ? (
+                  <span
+                    aria-hidden="true"
+                    class="absolute inset-0 rounded-full border border-white/10 bg-white/[0.06]"
+                  />
+                ) : null}
+                <span class="relative">{item.label}</span>
+              </a>
+            ))}
+            <a
+              class="ml-2 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-4 py-2 text-sm text-white transition hover:border-cyan-400/25 hover:bg-white/[0.06] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-200"
+              href={siteConfig.organizationUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <GitBranch className="h-4 w-4" aria-hidden="true" />
+              GitHub
+            </a>
+          </nav>
+          <MobileNav client:load items={navItems} organizationUrl={siteConfig.organizationUrl} />
+        </div>
+      </ScrollHeader>
+      <main id="main-content" tabindex="-1">
+        <slot />
+      </main>
+      <footer class="relative mt-20 border-t border-white/[0.06]">
+        <div class="mx-auto grid w-full max-w-6xl gap-12 px-6 py-16 text-sm text-slate-400 sm:px-8 md:grid-cols-[1.4fr_1fr_1fr_1fr] lg:px-10 lg:py-20">
+          <div>
+            <p class="text-base font-semibold text-white">Hypersnap</p>
+            <p class="mt-4 max-w-sm leading-7 text-slate-400">
+              A decentralized social network, built by a global community of contributors. No
+              company, no VC, no single owner.
+            </p>
+            <p class="mt-4 max-w-sm leading-7 text-slate-500">
+              Hypersnap.org is built and maintained by{" "}
+              <a
+                class="font-medium text-cyan-200/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+                href={creator.website}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {creator.name}
+              </a>
+              .
+            </p>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">The project</p>
+            <ul class="mt-5 space-y-3">
+              <li>
+                <a class="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200" href="/about">About</a>
+              </li>
+              <li>
+                <a class="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200" href="/contribute">Contribute</a>
+              </li>
+              <li>
+                <a class="rounded-sm hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200" href="/run-a-node">Run a node</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">For builders</p>
+            <ul class="mt-5 space-y-3">
+              <li>
+                <a class="rounded-sm hover:text-white" href="/docs">Docs hub</a>
+              </li>
+              <li>
+                <a class="rounded-sm hover:text-white" href="/network">Live network</a>
+              </li>
+              <li>
+                <a class="rounded-sm hover:text-white" href={`${siteConfig.publicNodeBaseUrl}/v1/info`}>
+                  Public node info
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <p class="text-xs font-semibold uppercase tracking-[0.14em] text-slate-300">Made by</p>
+            <ul class="mt-5 space-y-3">
+              {creator.links.map((link) => (
+                <li>
+                  <a
+                    class="inline-flex items-center gap-2 rounded-sm hover:text-white"
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {link.label}
+                    <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div class="border-t border-white/[0.04]">
+          <div class="mx-auto w-full max-w-6xl px-6 py-6 text-xs leading-6 text-slate-500 sm:px-8 lg:px-10">
+            Hypersnap.org · Protocol work is open source at{" "}
+            <a
+              class="font-medium text-cyan-200/90 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-cyan-200"
+              href={siteConfig.organizationUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
+              github.com/farcasterorg
+            </a>
+            , where all repos live and anyone can contribute.
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

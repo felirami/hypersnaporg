@@ -1,8 +1,10 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Activity, Database, ExternalLink, GitCommit, LockKeyhole, Server, Wifi, WifiOff } from "lucide-react";
 import { compactPeerId, formatBytes, formatExactNumber, formatNumber } from "@/lib/format";
-import { getNetworkStatus, getNodeHealthStatuses } from "@/lib/network";
 import { StatCard } from "@/components/ui";
-import type { NodeHealthStatus } from "@/lib/types";
+import type { NetworkStatus, NodeHealthStatus } from "@/lib/types";
 
 const statusStyles = {
   online: {
@@ -116,11 +118,58 @@ function NodeHealthCard({ status }: { status: NodeHealthStatus }) {
   );
 }
 
-export async function NetworkStatusGrid({ compact = false }: { compact?: boolean }) {
-  const [status, nodeStatuses] = await Promise.all([
-    getNetworkStatus(),
-    getNodeHealthStatuses(),
-  ]);
+type NetworkStatusPayload = NetworkStatus & { nodes?: NodeHealthStatus[] };
+
+export function NetworkStatusGrid({
+  compact = false,
+  initialStatus,
+  initialNodes,
+}: {
+  compact?: boolean;
+  initialStatus?: NetworkStatus;
+  initialNodes?: NodeHealthStatus[];
+}) {
+  const [status, setStatus] = useState<NetworkStatus | null>(initialStatus ?? null);
+  const [nodeStatuses, setNodeStatuses] = useState<NodeHealthStatus[]>(initialNodes ?? []);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function load() {
+      try {
+        const response = await fetch("/api/network-status", { cache: "no-store" });
+        const json = (await response.json()) as NetworkStatusPayload;
+        if (cancelled) return;
+        setStatus(json);
+        if (Array.isArray(json.nodes)) {
+          setNodeStatuses(json.nodes);
+        }
+      } catch {
+        if (!cancelled && !initialStatus) {
+          setStatus({
+            ok: false,
+            checkedAt: new Date().toISOString(),
+            endpoint: "",
+            info: null,
+            error: "Could not load network status",
+          });
+        }
+      }
+    }
+
+    if (!initialStatus) {
+      void load();
+    }
+    const interval = window.setInterval(load, 60_000);
+    return () => {
+      cancelled = true;
+      window.clearInterval(interval);
+    };
+  }, [initialStatus]);
+
+  if (!status) {
+    return <div className="glass-panel h-36 rounded-2xl" />;
+  }
 
   const info = status.info;
   const shardInfos = info?.shardInfos ?? [];

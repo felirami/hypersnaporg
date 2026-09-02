@@ -98,6 +98,7 @@ export type NetworkStatus = {
   endpoint: string;
   info: NetworkInfo | null;
   error?: string;
+  nodes?: NodeHealthStatus[];
 };
 
 export type NodeHealthState = "online" | "auth-gated" | "degraded" | "unreachable";
