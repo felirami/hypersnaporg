@@ -1,0 +1,14 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { NetworkPage } from "@/components/pages/network-page";
+import { getNetworkStatus, getNodeHealthStatuses } from "@/lib/network";
+
+const [status, nodes] = await Promise.all([getNetworkStatus(), getNodeHealthStatuses()]);
+---
+
+<BaseLayout
+  title="Network"
+  description="Access Hypersnap public nodes, Ardea / Arca node status, HTTP API endpoints, and shard data."
+>
+  <NetworkPage client:load status={status} nodes={nodes} />
+</BaseLayout>

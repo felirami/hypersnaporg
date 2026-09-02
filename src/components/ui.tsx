@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/link";
 import type { ComponentType, SVGProps } from "react";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { CopyCommand } from "@/components/copy-command";

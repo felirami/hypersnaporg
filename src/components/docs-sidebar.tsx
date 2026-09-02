@@ -1,13 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useId, useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { Link } from "@/components/link";
 import type { DocsSection } from "@/lib/sources";
 
-export function DocsSidebar({ sections }: { sections: DocsSection[] }) {
-  const pathname = usePathname();
+export function DocsSidebar({
+  sections,
+  currentPath,
+}: {
+  sections: DocsSection[];
+  currentPath: string;
+}) {
+  const pathname = currentPath;
   const [isOpen, setIsOpen] = useState(false);
   const menuId = useId();
 

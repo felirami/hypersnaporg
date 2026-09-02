@@ -14,7 +14,9 @@ export const SNAP = {
   claimUrl: "https://hypria.app",
   dexscreenerUrl:
     "https://dexscreener.com/ethereum/0x72a70a747a8390caf1aad3fb1de3564b55871f137539e498d30f02b1167742ea",
-  dexscreenerApiUrl: process.env.DEXSCREENER_PAIR_URL || DEFAULT_DEXSCREENER_API_URL,
+  dexscreenerApiUrl:
+    (typeof process !== "undefined" && process.env?.DEXSCREENER_PAIR_URL) ||
+    DEFAULT_DEXSCREENER_API_URL,
   discussions: [
     {
       label: "FIP-19: Proof-of-Work Tokenomics",

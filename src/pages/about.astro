@@ -1,0 +1,11 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { AboutPage } from "@/components/pages/about-page";
+---
+
+<BaseLayout
+  title="About"
+  description="About Hypersnap, the decentralized Farcaster fork, and Hypersnap.org, the portal made by Felirami."
+>
+  <AboutPage client:load />
+</BaseLayout>

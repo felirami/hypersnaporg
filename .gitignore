@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
@@ -13,7 +11,11 @@
 # testing
 /coverage
 
-# next.js
+# astro
+.astro/
+dist/
+
+# next.js leftover
 /.next/
 /out/
 
@@ -24,6 +26,7 @@
 .DS_Store
 *.pem
 .claude/
+.wrangler/
 
 # debug
 npm-debug.log*
@@ -41,3 +44,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+worker-configuration.d.ts

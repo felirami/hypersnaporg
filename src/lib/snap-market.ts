@@ -78,7 +78,6 @@ export async function getSnapMarketData(): Promise<SnapMarketResponse> {
         accept: "application/json",
         "user-agent": "hypersnap.org market data checker",
       },
-      next: { revalidate: SNAP_MARKET_REVALIDATE },
     });
 
     if (!response.ok) {
